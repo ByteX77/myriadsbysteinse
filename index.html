@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WILDYFY | Wildlife Photography</title>
+  <meta name="description" content="WILDYFY — Exploring the wild through wildlife, bird and nature photography.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #0b0d0b;
+      color: #f4f3ed;
+      font-family: Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 24px 7%;
+      border-bottom: 1px solid #292d28;
+    }
+    .logo { font-size: 25px; font-weight: 900; letter-spacing: 4px; }
+    .logo span { color: #b4d27b; }
+    nav { display: flex; gap: 24px; font-size: 13px; color: #c4c6bd; }
+    nav a:hover { color: #b4d27b; }
+    .hero {
+      min-height: 76vh; display: flex; align-items: center;
+      padding: 70px 9%;
+      background:
+        linear-gradient(90deg, rgba(5,9,5,.94), rgba(5,9,5,.35)),
+        url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2000&q=85') center/cover;
+    }
+    .hero-content { max-width: 680px; }
+    .eyebrow { color: #b4d27b; letter-spacing: 4px; font-size: 11px; }
+    h1 { font-size: clamp(48px, 8vw, 94px); line-height: .98; margin: 24px 0; letter-spacing: -3px; }
+    h1 span { color: #b4d27b; }
+    .hero p { color: #d0d2c9; line-height: 1.8; max-width: 480px; }
+    .button {
+      display: inline-block; background: #b4d27b; color: #10150b;
+      padding: 15px 23px; margin-top: 30px;
+      font-weight: bold; font-size: 12px; letter-spacing: 1px;
+    }
+    section { padding: 85px 7%; }
+    .section-label { color: #b4d27b; font-size: 11px; letter-spacing: 3px; }
+    h2 { font-size: clamp(30px, 5vw, 48px); margin: 14px 0 18px; }
+    .intro { color: #a9aea4; line-height: 1.8; max-width: 600px; }
+    .gallery {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-top: 35px;
+    }
+    .photo {
+      position: relative; overflow: hidden;
+      background: #20251e; aspect-ratio: 4/5;
+    }
+    .photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform .5s;
+    }
+    .photo:hover img { transform: scale(1.06); }
+    .photo div {
+      position: absolute; inset: auto 0 0; padding: 35px 18px 18px;
+      background: linear-gradient(transparent, rgba(0,0,0,.85));
+    }
+    .photo h3 { font-size: 18px; }
+    .photo p { color: #c4d9a3; font-size: 11px; margin-top: 7px; letter-spacing: 1px; }
+    .about { background: #151915; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: center; }
+    .about-art {
+      min-height: 300px; background:
+        linear-gradient(0deg, rgba(0,0,0,.2), transparent),
+        url('https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1000&q=80') center/cover;
+    }
+    .about p { color: #b4b9af; line-height: 1.9; margin-top: 15px; }
+    .contact { text-align: center; }
+    .contact p { color: #a9aea4; line-height: 1.8; margin: 15px auto; max-width: 520px; }
+    footer {
+      padding: 28px 7%; border-top: 1px solid #292d28;
+      display: flex; justify-content: space-between; gap: 15px;
+      flex-wrap: wrap; color: #8c9387; font-size: 12px;
+    }
+    @media(max-width:700px) {
+      header { padding: 20px 5%; }
+      nav { gap: 12px; font-size: 11px; }
+      .logo { font-size: 20px; letter-spacing: 2px; }
+      .hero { min-height: 70vh; padding: 55px 7%; }
+      section { padding: 65px 6%; }
+      .gallery { grid-template-columns: repeat(2, 1fr); gap: 9px; }
+      .about-grid { grid-template-columns: 1fr; gap: 25px; }
+      .about-art { min-height: 240px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="#">WILDY<span>FY</span></a>
+    <nav>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">WILDLIFE · NATURE · THE UNTAMED</div>
+        <h1>THE WILD<br>THROUGH <span>MY LENS.</span></h1>
+        <p>Every feather, every movement, every fleeting moment. Discover the extraordinary beauty of the natural world through photography.</p>
+        <a class="button" href="#gallery">EXPLORE THE GALLERY ↗</a>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="section-label">A COLLECTION OF MOMENTS</div>
+      <h2>Into the wild.</h2>
+      <p class="intro">A glimpse into the lives, colours and quiet wonders of the natural world.</p>
+      <div class="gallery">
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=800&q=85" alt="Colourful bird in nature" loading="lazy">
+          <div><h3>Birdlife</h3><p>WINGS & COLOURS</p></div>
+        </article>
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=800&q=85" alt="Wild tiger" loading="lazy">
+          <div><h3>Wild Encounters</h3><p>POWER & PRESENCE</p></div>
+        </article>
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=85" alt="Deer in the wild" loading="lazy">
+          <div><h3>Forest Life</h3><p>HIDDEN MOMENTS</p></div>
+        </article>
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=85" alt="Sunlight falling through a forest" loading="lazy">
+          <div><h3>Wild Places</h3><p>WHERE NATURE BREATHES</p></div>
+        </article>
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=85" alt="Natural landscape" loading="lazy">
+          <div><h3>Landscapes</h3><p>EARTH IN FRAME</p></div>
+        </article>
+        <article class="photo">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=85" alt="Deep green forest" loading="lazy">
+          <div><h3>Into the Green</h3><p>THE NATURAL WORLD</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-grid">
+        <div class="about-art" role="img" aria-label="Wild deer in a natural landscape"></div>
+        <div>
+          <div class="section-label">BEHIND THE LENS</div>
+          <h2>A passion for the wild.</h2>
+          <p>WILDYFY is a photography space dedicated to the beauty of wildlife, birds and nature. Each photograph is an invitation to slow down, observe and appreciate the incredible world around us.</p>
+          <p>From fleeting bird encounters to the stillness of the forest, the adventure is always waiting.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="section-label">LET'S CONNECT</div>
+      <h2>Stay wild.</h2>
+      <p>Enjoy the photographs? Follow the journey and discover more moments from the natural world.</p>
+      <!-- Replace YOUR_USERNAME with your Instagram username -->
+      <a class="button" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">FOLLOW ON INSTAGRAM ↗</a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="#">WILDY<span>FY</span></a>
+    <span>Wildlife · Nature · Photography</span>
+    <span>© 2026 WILDYFY</span>
+  </footer>
+</body>
+</html>
