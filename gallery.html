@@ -23,25 +23,104 @@ footer{border-top:1px solid var(--line);padding:26px 5%;color:#8c9387;font-size:
 <body>
 <header><a class="logo" href="index.html">WILDY<span>FY</span></a><nav aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a><a href="index.html#about">About</a></nav></header>
 <main><div class="eyebrow">THE WILD THROUGH MY LENS</div><h1>Explore the <span class="accent">gallery.</span></h1><p class="intro">A collection of moments from the natural world, captured through my lens. Every photograph is an invitation to pause, explore and appreciate the beauty of nature.</p>
-<div class="gallery" id="gallery">
-<article class="photo"><img src="images/BNXJ6258%20%28WEB%29.JPG" alt="Photograph 1 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 01</h2><p>WILDYFY · PHOTOGRAPH 01</p></div></article>
-<article class="photo"><img src="images/IMG_0004%20%28WEB%29.JPG" alt="Photograph 2 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 02</h2><p>WILDYFY · PHOTOGRAPH 02</p></div></article>
-<article class="photo"><img src="images/IMG_1351%20%28WEB%29.JPG" alt="Photograph 3 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 03</h2><p>WILDYFY · PHOTOGRAPH 03</p></div></article>
-<article class="photo"><img src="images/IMG_1355%20%28WEB%29.JPG" alt="Photograph 4 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 04</h2><p>WILDYFY · PHOTOGRAPH 04</p></div></article>
-<article class="photo"><img src="images/IMG_4591%20%28WEB%29.JPG" alt="Photograph 5 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 05</h2><p>WILDYFY · PHOTOGRAPH 05</p></div></article>
-<article class="photo"><img src="images/IMG_5532%20%28WEB%29.JPG" alt="Photograph 6 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 06</h2><p>WILDYFY · PHOTOGRAPH 06</p></div></article>
-<article class="photo"><img src="images/IMG_5598%20%28WEB%29.JPG" alt="Photograph 7 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 07</h2><p>WILDYFY · PHOTOGRAPH 07</p></div></article>
-<article class="photo"><img src="images/IMG_5599%20%28WEB%29.JPG" alt="Photograph 8 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 08</h2><p>WILDYFY · PHOTOGRAPH 08</p></div></article>
-<article class="photo"><img src="images/IMG_5600%20%28WEB%29.JPG" alt="Photograph 9 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 09</h2><p>WILDYFY · PHOTOGRAPH 09</p></div></article>
-<article class="photo"><img src="images/IMG_5601%20%28WEB%29.JPG" alt="Photograph 10 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 10</h2><p>WILDYFY · PHOTOGRAPH 10</p></div></article>
-<article class="photo"><img src="images/IMG_7898_Original%20%28WEB%29.jpg" alt="Photograph 11 by Steinse" loading="lazy"><div class="caption"><h2>Wild moment 11</h2><p>WILDYFY · PHOTOGRAPH 11</p></div></article>
-</div></main><footer><a class="logo" href="index.html">WILDY<span>FY</span></a><span>WILDLIFE · NATURE · PHOTOGRAPHY</span><span>© 2026 WILDYFY</span></footer>
+<div class="gallery" id="gallery" aria-live="polite"><p class="intro" id="galleryStatus">Loading photographs…</p></div></main><footer><a class="logo" href="index.html">WILDY<span>FY</span></a><span>WILDLIFE · NATURE · PHOTOGRAPHY</span><span>© 2026 WILDYFY</span></footer>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true"><button class="lbbtn close" id="close" aria-label="Close">×</button><button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button><img id="large" src="" alt=""><button class="lbbtn next" id="next" aria-label="Next photo">›</button><div class="lbcaption" id="lbcaption"></div></div>
 <script>
-(() => {const photos=[...document.querySelectorAll(".photo img")];const lb=document.getElementById("lightbox"),large=document.getElementById("large"),cap=document.getElementById("lbcaption");let current=0,focusBefore=null,touchX=0;
-function show(i){current=(i+photos.length)%photos.length;const img=photos[current];large.src=img.currentSrc||img.src;large.alt=img.alt;cap.textContent=img.alt+" · "+(current+1)+" / "+photos.length;}
-function open(i){focusBefore=document.activeElement;show(i);lb.classList.add("open");lb.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";document.getElementById("close").focus();}
-function close(){lb.classList.remove("open");lb.setAttribute("aria-hidden","true");large.removeAttribute("src");document.body.style.overflow="";if(focusBefore)focusBefore.focus();}
-photos.forEach((img,i)=>{img.tabIndex=0;img.setAttribute("role","button");img.setAttribute("aria-label","Enlarge "+img.alt);img.addEventListener("click",()=>open(i));img.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open(i);}});});
-document.getElementById("close").addEventListener("click",close);document.getElementById("prev").addEventListener("click",()=>show(current-1));document.getElementById("next").addEventListener("click",()=>show(current+1));lb.addEventListener("click",e=>{if(e.target===lb)close();});document.addEventListener("keydown",e=>{if(!lb.classList.contains("open"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")show(current-1);if(e.key==="ArrowRight")show(current+1);});lb.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].screenX;},{passive:true});lb.addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-touchX;if(Math.abs(dx)>60)show(current+(dx<0?1:-1));},{passive:true});})();
+(async () => {
+  const gallery = document.getElementById("gallery");
+  const status = document.getElementById("galleryStatus");
+  const lb = document.getElementById("lightbox");
+  const large = document.getElementById("large");
+  const cap = document.getElementById("lbcaption");
+  let photos = [];
+  let current = 0;
+  let focusBefore = null;
+  let touchX = 0;
+
+  function show(index) {
+    current = (index + photos.length) % photos.length;
+    const img = photos[current].querySelector("img");
+    large.src = img.currentSrc || img.src;
+    large.alt = img.alt;
+    cap.textContent = (img.alt || "WILDYFY photograph") + " · " + (current + 1) + " / " + photos.length;
+  }
+  function open(index) {
+    focusBefore = document.activeElement;
+    show(index);
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    document.getElementById("close").focus();
+  }
+  function close() {
+    lb.classList.remove("open");
+    lb.setAttribute("aria-hidden", "true");
+    large.removeAttribute("src");
+    document.body.style.overflow = "";
+    if (focusBefore) focusBefore.focus();
+  }
+
+  try {
+    const response = await fetch("photos.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("Could not load photos.json");
+    const list = await response.json();
+    if (!Array.isArray(list)) throw new Error("photos.json must contain a list of photos");
+    gallery.replaceChildren();
+    list.forEach((item, index) => {
+      const filename = typeof item === "string" ? item : item.file;
+      const title = typeof item === "string" ? `Wild moment ${String(index + 1).padStart(2, "0")}` : (item.title || `Wild moment ${String(index + 1).padStart(2, "0")}`);
+      const label = typeof item === "string" ? "WILDYFY · PHOTOGRAPHY" : (item.label || "WILDYFY · PHOTOGRAPHY");
+      if (!filename) return;
+      const article = document.createElement("article");
+      article.className = "photo";
+      const img = document.createElement("img");
+      img.src = "images/" + encodeURIComponent(filename).replace(/%2F/g, "/");
+      img.alt = title + " by Steinse";
+      img.loading = "lazy";
+      img.onerror = () => { article.remove(); };
+      const caption = document.createElement("div");
+      caption.className = "caption";
+      const heading = document.createElement("h2");
+      heading.textContent = title;
+      const sub = document.createElement("p");
+      sub.textContent = label;
+      caption.append(heading, sub);
+      article.append(img, caption);
+      gallery.append(article);
+    });
+    photos = [...gallery.querySelectorAll(".photo")];
+    if (photos.length === 0) {
+      gallery.innerHTML = '<p class="intro">No photographs found yet. Add image filenames to photos.json.</p>';
+    }
+    photos.forEach((article, index) => {
+      const img = article.querySelector("img");
+      img.tabIndex = 0;
+      img.setAttribute("role", "button");
+      img.setAttribute("aria-label", "Enlarge " + img.alt);
+      img.addEventListener("click", () => open(index));
+      img.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(index); }
+      });
+    });
+  } catch (error) {
+    gallery.innerHTML = '<p class="intro">The gallery could not load. Please check that photos.json is in the main repository folder and contains valid JSON.</p>';
+    console.error(error);
+  }
+
+  document.getElementById("close").addEventListener("click", close);
+  document.getElementById("prev").addEventListener("click", () => { if (photos.length) show(current - 1); });
+  document.getElementById("next").addEventListener("click", () => { if (photos.length) show(current + 1); });
+  lb.addEventListener("click", event => { if (event.target === lb) close(); });
+  document.addEventListener("keydown", event => {
+    if (!lb.classList.contains("open")) return;
+    if (event.key === "Escape") close();
+    if (event.key === "ArrowLeft" && photos.length) show(current - 1);
+    if (event.key === "ArrowRight" && photos.length) show(current + 1);
+  });
+  lb.addEventListener("touchstart", event => { touchX = event.changedTouches[0].screenX; }, { passive: true });
+  lb.addEventListener("touchend", event => {
+    const dx = event.changedTouches[0].screenX - touchX;
+    if (Math.abs(dx) > 60 && photos.length) show(current + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+})();
 </script></body></html>
