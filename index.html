@@ -7,7 +7,8 @@
 <meta name="description" content="WILDYFY by Steinse — wildlife, nature, bird photography and conservation from Kerala, India.">
 <title>WILDYFY | Wildlife Photography by Steinse</title>
 
-
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 
@@ -192,7 +193,8 @@ section { width: 100%; }
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4,minmax(0,1fr));
-  grid-auto-rows: minmax(190px,19vw);
+  grid-auto-rows: minmax(170px,16vw);
+  grid-auto-flow: dense;
   gap: 12px;
 }
 
@@ -470,7 +472,7 @@ footer a:hover { color: var(--green); }
 
 @media (min-width:1600px) {
   .collage {
-    grid-auto-rows: minmax(240px,20vw);
+    grid-auto-rows: minmax(220px,17vw);
   }
 }
 
@@ -487,6 +489,7 @@ footer a:hover { color: var(--green); }
 
   .collage {
     grid-template-columns: repeat(3,minmax(0,1fr));
+    grid-template-rows: none;
     grid-auto-rows: 190px;
   }
 
@@ -540,6 +543,7 @@ footer a:hover { color: var(--green); }
 
   .collage {
     grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-rows: none;
     grid-auto-rows: 155px;
     gap: 7px;
   }
@@ -660,52 +664,31 @@ footer a:hover { color: var(--green); }
       <a class="text-link" href="gallery.html">VIEW ALL PHOTOGRAPHS ↗</a>
     </div>
 
-    <div class="collage">
-
-      <a class="tile tile-large" href="gallery.html" aria-label="Explore wildlife photographs">
-        <img src="images/BNXJ6258%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" fetchpriority="high">
-        <div class="tile-caption">
-          <small>01 / WILDLIFE</small>
-          <h3>Wild moments</h3>
-          <p>Captured through my lens</p>
-        </div>
+    <div class="collage" id="featuredCollage" aria-label="Featured wildlife photographs">
+      <a class="tile tile-large" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" fetchpriority="high">
+        <div class="tile-caption"><small>01 / FEATURED</small><h3>Into the wild</h3><p>Wild encounters</p></div>
       </a>
-
-      <a class="tile" href="gallery.html" aria-label="Explore bird photographs">
-        <img src="images/IMG_0004%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
-        <div class="tile-caption">
-          <small>02 / NATURE</small>
-          <h3>Nature in focus</h3>
-        </div>
+      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" loading="lazy">
+        <div class="tile-caption"><small>02 / WILDLIFE</small><h3>Wild moments</h3></div>
       </a>
-
-      <a class="tile" href="gallery.html" aria-label="Explore forest photographs">
-        <img src="images/IMG_1351%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" loading="lazy">
-        <div class="tile-caption">
-          <small>03 / WILDLIFE</small>
-          <h3>Into the wild</h3>
-        </div>
+      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" loading="lazy">
+        <div class="tile-caption"><small>03 / NATURE</small><h3>Nature in focus</h3></div>
       </a>
-
-      <a class="tile tile-wide" href="gallery.html" aria-label="Explore landscape photographs">
-        <img src="images/IMG_1355%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
-        <div class="tile-caption">
-          <small>04 / NATURE</small>
-          <h3>Earth in frame</h3>
-          <p>A world worth protecting</p>
-        </div>
+      <a class="tile tile-wide" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" loading="lazy">
+        <div class="tile-caption"><small>04 / WILDYFY</small><h3>Earth in frame</h3><p>Beyond the familiar</p></div>
       </a>
-
-      <a class="tile" href="gallery.html" aria-label="Open wildlife photograph 5">
-        <img src="images/IMG_4591%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" loading="lazy">
-        <div class="tile-caption"><small>05 / WILDLIFE</small><h3>Wild moments</h3><p>Captured through my lens</p></div>
+      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" loading="lazy">
+        <div class="tile-caption"><small>05 / WILDLIFE</small><h3>Small wonders</h3></div>
       </a>
-
-      <a class="tile tile-wide" href="gallery.html" aria-label="Open nature photograph 6">
-        <img src="images/IMG_5532%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
-        <div class="tile-caption"><small>06 / NATURE</small><h3>Stay wild</h3><p>Explore. Capture. Conserve.</p></div>
+      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+        <img src="" alt="" loading="lazy">
+        <div class="tile-caption"><small>06 / NATURE</small><h3>Stay wild</h3></div>
       </a>
-
     </div>
 
     <div class="gallery-footer">
@@ -846,13 +829,13 @@ footer a:hover { color: var(--green); }
   const lightbox = document.getElementById("lightbox");
   const largeImage = document.getElementById("lbImage");
   const caption = document.getElementById("lbCaption");
-  const photos = [...document.querySelectorAll(".collage .tile img")];
-
+  let photos = [];
   let current = 0;
   let previousFocus = null;
   let touchStartX = 0;
 
   function showPhoto(index) {
+    if (!photos.length) return;
     current = (index + photos.length) % photos.length;
     const photo = photos[current];
 
@@ -881,23 +864,78 @@ footer a:hover { color: var(--green); }
     if (previousFocus) previousFocus.focus();
   }
 
-  photos.forEach((photo, index) => {
-    photo.style.cursor = "zoom-in";
-    photo.tabIndex = 0;
-    photo.setAttribute("role", "button");
-    photo.setAttribute("aria-label", "Enlarge " + photo.alt);
+  function wireCollagePhotos() {
+    photos = [...document.querySelectorAll(".collage .tile img")];
+    photos.forEach((photo, index) => {
+      if (photo.dataset.lightboxWired === "true") return;
+      photo.dataset.lightboxWired = "true";
+      photo.style.cursor = "zoom-in";
+      photo.tabIndex = 0;
+      photo.setAttribute("role", "button");
+      photo.setAttribute("aria-label", "Enlarge " + photo.alt);
 
-    photo.addEventListener("click", event => {
-      event.preventDefault();
-      openViewer(index);
-    });
-
-    photo.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
+      photo.addEventListener("click", event => {
         event.preventDefault();
         openViewer(index);
-      }
+      });
+
+      photo.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openViewer(index);
+        }
+      });
     });
+  }
+
+  function shuffle(items) {
+    const result = [...items];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+
+  async function loadFeaturedPhotos() {
+    const tiles = [...document.querySelectorAll("#featuredCollage .tile")];
+    try {
+      const response = await fetch("photos.json?updated=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) throw new Error("Could not load photos.json");
+      const list = await response.json();
+      if (!Array.isArray(list) || !list.length) throw new Error("Photo list is empty");
+
+      const selected = shuffle(list).slice(0, Math.min(6, list.length));
+      tiles.forEach((tile, index) => {
+        const item = selected[index];
+        if (!item) {
+          tile.hidden = true;
+          return;
+        }
+        tile.hidden = false;
+        const img = tile.querySelector("img");
+        const filePath = "images/" + item.file.split("/").map(encodeURIComponent).join("/");
+        img.src = filePath;
+        img.alt = item.title || "WILDYFY wildlife photograph";
+        const small = tile.querySelector(".tile-caption small");
+        const title = tile.querySelector(".tile-caption h3");
+        const description = tile.querySelector(".tile-caption p");
+        if (small) small.textContent = item.label || (String(index + 1).padStart(2, "0") + " / WILDYFY");
+        if (title) title.textContent = item.title || "A moment in the wild";
+        if (description) description.textContent = item.description || "Wildlife · Nature · Photography";
+      });
+      wireCollagePhotos();
+    } catch (error) {
+      console.error("WILDYFY featured collage could not load photos.json:", error);
+      const collage = document.getElementById("featuredCollage");
+      collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
+    }
+  }
+
+  loadFeaturedPhotos();
+  // Refresh the random selection when the visitor returns to this page via Back/Forward.
+  window.addEventListener("pageshow", event => {
+    if (event.persisted) loadFeaturedPhotos();
   });
 
   document.getElementById("lbClose").addEventListener("click", closeViewer);
