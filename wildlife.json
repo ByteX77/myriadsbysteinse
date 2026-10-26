@@ -1,17 +1,27 @@
+
 [
   {
-    "file": "BRXJ6258 (WEB).JPG",
-    "title": "Wildlife photograph",
-    "label": "MYRIADS BY STEINSE"
+    "file": "BNXJ6258 (WEB).JPG",
+    "title": "Wildlife Photograph",
+    "label": "MYRIADS BY STEINSE",
+    "description": "",
+    "species": "",
+    "location": ""
   },
   {
     "file": "IMG_1351 (WEB).JPG",
-    "title": "Wildlife photograph",
-    "label": "MYRIADS BY STEINSE"
+    "title": "Wildlife Photograph",
+    "label": "MYRIADS BY STEINSE",
+    "description": "",
+    "species": "",
+    "location": ""
   },
   {
     "file": "IMG_5598 (WEB).JPG",
-    "title": "Wildlife photograph",
-    "label": "MYRIADS BY STEINSE"
+    "title": "Wildlife Photograph",
+    "label": "MYRIADS BY STEINSE",
+    "description": "",
+    "species": "",
+    "location": ""
   }
 ]
