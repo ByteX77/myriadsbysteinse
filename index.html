@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
 <meta name="description" content="WILDYFY by Steinse — wildlife, nature, bird photography and conservation from Kerala, India.">
 <title>WILDYFY | Wildlife Photography by Steinse</title>
 
-<link rel="preconnect" href="https://images.unsplash.com">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 
@@ -193,7 +192,7 @@ section { width: 100%; }
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4,minmax(0,1fr));
-  grid-template-rows: repeat(2,minmax(190px,19vw));
+  grid-auto-rows: minmax(190px,19vw);
   gap: 12px;
 }
 
@@ -471,7 +470,7 @@ footer a:hover { color: var(--green); }
 
 @media (min-width:1600px) {
   .collage {
-    grid-template-rows: repeat(2,minmax(240px,20vw));
+    grid-auto-rows: minmax(240px,20vw);
   }
 }
 
@@ -488,7 +487,7 @@ footer a:hover { color: var(--green); }
 
   .collage {
     grid-template-columns: repeat(3,minmax(0,1fr));
-    grid-template-rows: repeat(3,190px);
+    grid-auto-rows: 190px;
   }
 
   .tile-large {
@@ -541,7 +540,7 @@ footer a:hover { color: var(--green); }
 
   .collage {
     grid-template-columns: repeat(2,minmax(0,1fr));
-    grid-template-rows: repeat(3,155px);
+    grid-auto-rows: 155px;
     gap: 7px;
   }
 
@@ -664,41 +663,47 @@ footer a:hover { color: var(--green); }
     <div class="collage">
 
       <a class="tile tile-large" href="gallery.html" aria-label="Explore wildlife photographs">
-        <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1300&q=85"
-             alt="Wild deer in a natural landscape" fetchpriority="high">
+        <img src="images/BNXJ6258%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" fetchpriority="high">
         <div class="tile-caption">
           <small>01 / WILDLIFE</small>
-          <h3>Into the forest</h3>
-          <p>Wild encounters</p>
+          <h3>Wild moments</h3>
+          <p>Captured through my lens</p>
         </div>
       </a>
 
       <a class="tile" href="gallery.html" aria-label="Explore bird photographs">
-        <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=800&q=85"
-             alt="Colourful bird in nature" loading="lazy">
+        <img src="images/IMG_0004%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
         <div class="tile-caption">
-          <small>02 / BIRDLIFE</small>
-          <h3>Wings & colours</h3>
+          <small>02 / NATURE</small>
+          <h3>Nature in focus</h3>
         </div>
       </a>
 
       <a class="tile" href="gallery.html" aria-label="Explore forest photographs">
-        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=85"
-             alt="Sunlight filtering through a forest" loading="lazy">
+        <img src="images/IMG_1351%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" loading="lazy">
         <div class="tile-caption">
-          <small>03 / NATURE</small>
-          <h3>Wild places</h3>
+          <small>03 / WILDLIFE</small>
+          <h3>Into the wild</h3>
         </div>
       </a>
 
       <a class="tile tile-wide" href="gallery.html" aria-label="Explore landscape photographs">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ee3c?auto=format&fit=crop&w=1100&q=85"
-             alt="Expansive natural landscape" loading="lazy">
+        <img src="images/IMG_1355%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
         <div class="tile-caption">
-          <small>04 / LANDSCAPES</small>
+          <small>04 / NATURE</small>
           <h3>Earth in frame</h3>
-          <p>Beyond the familiar</p>
+          <p>A world worth protecting</p>
         </div>
+      </a>
+
+      <a class="tile" href="gallery.html" aria-label="Open wildlife photograph 5">
+        <img src="images/IMG_4591%20%28WEB%29.JPG" alt="Wildlife photograph by Steinse" loading="lazy">
+        <div class="tile-caption"><small>05 / WILDLIFE</small><h3>Wild moments</h3><p>Captured through my lens</p></div>
+      </a>
+
+      <a class="tile tile-wide" href="gallery.html" aria-label="Open nature photograph 6">
+        <img src="images/IMG_5532%20%28WEB%29.JPG" alt="Nature photograph by Steinse" loading="lazy">
+        <div class="tile-caption"><small>06 / NATURE</small><h3>Stay wild</h3><p>Explore. Capture. Conserve.</p></div>
       </a>
 
     </div>
