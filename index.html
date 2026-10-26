@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0d0b">
-<meta name="description" content="WILDYFY by Steinse — wildlife, nature, bird photography and conservation from Kerala, India.">
-<title>WILDYFY | Wildlife Photography by Steinse</title>
+<meta name="description" content="Myriads by Steinse — wildlife, nature, bird photography and conservation from Kerala, India.">
+<title>Myriads by Steinse | Wildlife & Nature Photography</title>
 
 <link rel="preconnect" href="https://images.unsplash.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,7 +80,7 @@ header {
   white-space: nowrap;
 }
 
-.logo span { color: var(--green); }
+.logo span { color: var(--green); font-size: .72em; letter-spacing: .4px; }
 
 nav {
   display: flex;
@@ -565,7 +565,7 @@ footer a:hover { color: var(--green); }
     gap: 12px;
   }
 
-  .logo { font-size: 20px; letter-spacing: 2px; }
+  .logo { font-size: 17px; letter-spacing: .5px; }
   nav { gap: 13px; }
   nav a { font-size: 11px; }
   .nav-cta { display: none; }
@@ -609,7 +609,7 @@ footer a:hover { color: var(--green); }
 <body>
 
 <header>
-  <a class="logo" href="index.html">WILDY<span>FY</span></a>
+  <a class="logo" href="index.html">Myriads<span> by Steinse</span></a>
   <nav aria-label="Main navigation">
     <a href="index.html">Home</a>
     <a href="gallery.html">Gallery</a>
@@ -759,7 +759,7 @@ footer a:hover { color: var(--green); }
       <p>
         I'm also passionate about wildlife conservation and protecting
         the natural habitats that countless species call home. Through
-        WILDYFY, I hope to celebrate nature, share my adventures, and
+        Myriads by Steinse, I hope to celebrate nature, share my adventures, and
         inspire others to appreciate and protect our planet.
       </p>
 
@@ -793,10 +793,10 @@ footer a:hover { color: var(--green); }
 </main>
 
 <footer>
-  <a class="logo" href="index.html">WILDY<span>FY</span></a>
+  <a class="logo" href="index.html">Myriads<span> by Steinse</span></a>
   <span>WILDLIFE · NATURE · PHOTOGRAPHY</span>
   <a href="gallery.html">EXPLORE GALLERY ↗</a>
-  <span>© 2026 WILDYFY</span>
+  <span>© 2026 Myriads by Steinse</span>
 </footer>
 
 <div class="lightbox" id="lightbox" role="dialog"
@@ -828,7 +828,7 @@ footer a:hover { color: var(--green); }
     largeImage.alt = photo.alt;
 
     caption.textContent =
-      (photo.alt || "WILDYFY photograph") +
+      (photo.alt || "Myriads by Steinse photograph") +
       " · " + (current + 1) + " / " + photos.length;
   }
 
@@ -928,7 +928,7 @@ footer a:hover { color: var(--green); }
         const oldImg = tile.querySelector("img.tile-current") || tile.querySelector("img:not(.tile-next)");
         const nextImg = document.createElement("img");
         nextImg.className = "tile-next";
-        nextImg.alt = item.title || "WILDYFY wildlife photograph";
+        nextImg.alt = item.title || "Myriads by Steinse wildlife photograph";
         nextImg.loading = "eager";
         nextImg.decoding = "async";
         nextImg.style.cursor = "zoom-in";
@@ -965,7 +965,7 @@ footer a:hover { color: var(--green); }
       await Promise.all(swaps);
       wireCollagePhotos();
     } catch (error) {
-      console.error("WILDYFY featured collage could not load photos.json:", error);
+      console.error("Myriads by Steinse featured collage could not load photos.json:", error);
       if (!collage.querySelector("img.tile-current")) {
         collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
       }
