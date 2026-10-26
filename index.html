@@ -233,14 +233,15 @@ section { width: 100%; }
   z-index: 3;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at center, transparent 56%, rgba(5, 7, 5, .18) 76%, rgba(5, 7, 5, .72) 100%),
-    linear-gradient(90deg, rgba(5, 7, 5, .22), transparent 12%, transparent 88%, rgba(5, 7, 5, .22));
-  opacity: .82;
+    radial-gradient(ellipse at center, transparent 48%, rgba(5, 7, 5, .24) 68%, rgba(5, 7, 5, .72) 84%, #050705 100%),
+    linear-gradient(to right, #050705 0%, transparent 9%, transparent 91%, #050705 100%),
+    linear-gradient(to bottom, #050705 0%, transparent 9%, transparent 91%, #050705 100%);
+  opacity: .96;
   transition: opacity .5s ease;
 }
 
 .tile:hover::after {
-  opacity: .42;
+  opacity: .78;
 }
 
 .tile img {
@@ -414,6 +415,30 @@ section { width: 100%; }
   color: var(--muted);
   font-size: 14px;
   line-height: 1.9;
+}
+
+.contact-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.contact-buttons .button {
+  margin-top: 0;
+  min-width: 220px;
+}
+
+.contact-buttons .button.secondary {
+  background: transparent;
+  color: var(--green);
+}
+
+.contact-buttons .button.secondary:hover {
+  background: var(--green);
+  color: #11160d;
 }
 
 footer {
@@ -752,11 +777,17 @@ footer a:hover { color: var(--green); }
       Enjoy the photographs? Follow the journey and discover
       more moments from the natural world.
     </p>
-    <!-- Replace with your actual Instagram profile URL -->
-    <a class="button" href="https://www.instagram.com/"
-       target="_blank" rel="noopener noreferrer">
-      FOLLOW ON INSTAGRAM ↗
-    </a>
+    <!-- Replace each placeholder URL with the matching Instagram profile link. -->
+    <div class="contact-buttons">
+      <a class="button" href="https://www.instagram.com/YOUR_WILDLIFE_USERNAME/"
+         target="_blank" rel="noopener noreferrer">
+        WILDLIFE INSTAGRAM ↗
+      </a>
+      <a class="button secondary" href="https://www.instagram.com/YOUR_NATURE_USERNAME/"
+         target="_blank" rel="noopener noreferrer">
+        NATURE INSTAGRAM ↗
+      </a>
+    </div>
   </section>
 
 </main>
