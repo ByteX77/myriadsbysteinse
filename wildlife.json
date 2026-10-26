@@ -88,25 +88,9 @@
     "location": ""
   },
   {
-    "image": "images/AL.jpg",
-    "title": "AL",
-    "label": "AL",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
     "image": "images/AM.JPG",
     "title": "AM",
     "label": "AM",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/AN.JPG",
-    "title": "AN",
-    "label": "AN",
     "description": "",
     "species": "",
     "location": ""
@@ -152,14 +136,6 @@
     "location": ""
   },
   {
-    "image": "images/AT.JPG",
-    "title": "AT",
-    "label": "AT",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
     "image": "images/AU.JPG",
     "title": "AU",
     "label": "AU",
@@ -184,14 +160,6 @@
     "location": ""
   },
   {
-    "image": "images/AX.JPG",
-    "title": "AX",
-    "label": "AX",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
     "image": "images/AY.JPG",
     "title": "AY",
     "label": "AY",
@@ -211,14 +179,6 @@
     "image": "images/BA.JPG",
     "title": "BA",
     "label": "BA",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/BB.JPG",
-    "title": "BB",
-    "label": "BB",
     "description": "",
     "species": "",
     "location": ""
