@@ -304,9 +304,11 @@ footer {
   height: min(790px,86vh);
   display: grid;
   grid-template-columns: minmax(0,1.55fr) minmax(280px,.8fr);
-  background: rgba(16,27,16,.98);
-  border: 1px solid rgba(220,235,205,.16);
-  box-shadow: 0 25px 90px #0008;
+  background: rgba(16,27,16,.42);
+  border: 0;
+  box-shadow: 0 25px 90px rgba(0,0,0,.42);
+  backdrop-filter: blur(28px) saturate(155%);
+  -webkit-backdrop-filter: blur(28px) saturate(155%);
   overflow: hidden;
   position: relative;
 }
@@ -345,7 +347,10 @@ footer {
   justify-content: center;
   min-width: 0;
   overflow-y: auto;
-  border-left: 1px solid var(--line);
+  border-left: 0;
+  background: linear-gradient(145deg, rgba(167, 211, 143, .16), rgba(63, 105, 65, .10) 48%, rgba(225, 242, 207, .07));
+  backdrop-filter: blur(30px) saturate(165%);
+  -webkit-backdrop-filter: blur(30px) saturate(165%);
 }
 
 .info-category {
@@ -549,7 +554,7 @@ footer {
   .viewer-info {
     padding: 20px 22px;
     border-left: 0;
-    border-top: 1px solid var(--line);
+    border-top: 0;
     min-height: 220px;
   }
 
