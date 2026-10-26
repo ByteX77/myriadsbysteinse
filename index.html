@@ -214,7 +214,21 @@ section { width: 100%; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .65s cubic-bezier(.2,.7,.2,1);
+  transition: transform .65s cubic-bezier(.2,.7,.2,1), opacity 1.15s ease-in-out;
+  opacity: 1;
+}
+
+.tile img.tile-current { z-index: 1; }
+.tile img.tile-next {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+.tile img.tile-next.is-visible { opacity: 1; }
+.tile img.tile-old { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tile img { transition: none; }
 }
 
 .tile:hover img { transform: scale(1.055); }
@@ -772,7 +786,7 @@ footer a:hover { color: var(--green); }
   }
 
   function wireCollagePhotos() {
-    photos = [...document.querySelectorAll(".collage .tile img")];
+    photos = [...document.querySelectorAll(".collage .tile img.tile-current")];
     photos.forEach((photo, index) => {
       if (photo.dataset.lightboxWired === "true") return;
       photo.dataset.lightboxWired = "true";
@@ -813,23 +827,59 @@ footer a:hover { color: var(--green); }
       if (!Array.isArray(list) || !list.length) throw new Error("Photo list is empty");
 
       const selected = shuffle(list).slice(0, Math.min(6, list.length));
-      tiles.forEach((tile, index) => {
-        const item = selected[index];
-        if (!item) {
-          tile.hidden = true;
-          return;
-        }
+      const swaps = selected.map((item, index) => {
+        const tile = tiles[index];
+        if (!tile) return Promise.resolve();
         tile.hidden = false;
-        const img = tile.querySelector("img");
+
+        const oldImg = tile.querySelector("img.tile-current") || tile.querySelector("img:not(.tile-next)");
+        const nextImg = document.createElement("img");
+        nextImg.className = "tile-next";
+        nextImg.alt = item.title || "WILDYFY wildlife photograph";
+        nextImg.loading = "eager";
+        nextImg.decoding = "async";
+        nextImg.style.cursor = "zoom-in";
         const filePath = "images/" + item.file.split("/").map(encodeURIComponent).join("/");
-        img.src = filePath;
-        img.alt = item.title || "WILDYFY wildlife photograph";
+
+        return new Promise(resolve => {
+          let finished = false;
+          const finish = () => {
+            if (finished) return;
+            finished = true;
+            if (oldImg && oldImg !== nextImg && oldImg.isConnected) oldImg.remove();
+            nextImg.classList.remove("tile-next", "is-visible");
+            nextImg.classList.add("tile-current");
+            wireCollagePhotos();
+            resolve();
+          };
+
+          nextImg.onload = () => {
+            tile.appendChild(nextImg);
+            // Allow the browser to paint the new image behind the old one before fading it up.
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              nextImg.classList.add("is-visible");
+              if (oldImg && oldImg !== nextImg) oldImg.classList.add("tile-old");
+              window.setTimeout(finish, 1200);
+            }));
+          };
+          nextImg.onerror = () => {
+            nextImg.remove();
+            // Keep the previous photograph visible if a new file cannot load.
+            resolve();
+          };
+          nextImg.src = filePath;
+        });
       });
+
+      tiles.forEach((tile, index) => { if (index >= selected.length) tile.hidden = true; });
+      await Promise.all(swaps);
       wireCollagePhotos();
     } catch (error) {
       console.error("WILDYFY featured collage could not load photos.json:", error);
       const collage = document.getElementById("featuredCollage");
-      collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
+      if (!collage.querySelector("img.tile-current")) {
+        collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
+      }
     }
   }
 
