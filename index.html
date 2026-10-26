@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="a2e5tq45nohOAPsWUS9kvRsRTCaDdoMBQHrSxzMSnts" />
-  <link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0d0b">
@@ -904,10 +902,17 @@ footer a:hover { color: var(--green); }
   async function loadFeaturedPhotos() {
     const collage = document.getElementById("featuredCollage");
     try {
-      const response = await fetch("photos.json?updated=" + Date.now(), { cache: "no-store" });
-      if (!response.ok) throw new Error("Could not load photos.json");
-      const list = await response.json();
-      if (!Array.isArray(list) || !list.length) throw new Error("Photo list is empty");
+      const [wildlifeResponse, natureResponse] = await Promise.all([
+        fetch("wildlife.json?updated=" + Date.now(), { cache: "no-store" }),
+        fetch("nature.json?updated=" + Date.now(), { cache: "no-store" })
+      ]);
+      if (!wildlifeResponse.ok || !natureResponse.ok) throw new Error("Could not load wildlife.json or nature.json");
+      const [wildlifeList, natureList] = await Promise.all([wildlifeResponse.json(), natureResponse.json()]);
+      const list = [
+        ...(Array.isArray(wildlifeList) ? wildlifeList.map(item => ({ ...item, category: "wildlife" })) : []),
+        ...(Array.isArray(natureList) ? natureList.map(item => ({ ...item, category: "nature" })) : [])
+      ];
+      if (!list.length) throw new Error("Photo lists are empty");
 
       // Keep the collage curated: show only 6–8 random photos, never the entire collection.
       const minCount = Math.min(6, list.length);
@@ -969,7 +974,7 @@ footer a:hover { color: var(--green); }
     } catch (error) {
       console.error("Myriads by Steinse featured collage could not load photos.json:", error);
       if (!collage.querySelector("img.tile-current")) {
-        collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
+        collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check wildlife.json, nature.json and image filenames.</p>';
       }
     }
   }
