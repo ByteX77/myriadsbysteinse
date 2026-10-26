@@ -3,171 +3,298 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WILDYFY | Wildlife Photography</title>
-  <meta name="description" content="WILDYFY — Exploring the wild through wildlife, bird and nature photography.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d0b">
+  <title>WILDYFY | A Photographic Collection by Steinse</title>
+  <meta name="description" content="Wildlife, birds and nature photography by Steinse. Explore selected photographs and visual stories from the wild.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0b0d0b;
+      --panel: #151915;
+      --text: #f4f3ed;
+      --muted: #b4b9af;
+      --accent: #b4d27b;
+      --line: #292d28;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
     body {
-      background: #0b0d0b;
-      color: #f4f3ed;
-      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Sans", Arial, sans-serif;
     }
     a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .wrap { width: min(1180px, 86%); margin: auto; }
+
     header {
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 24px 7%;
-      border-bottom: 1px solid #292d28;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 23px 7%;
+      background: rgba(11,13,11,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
-    .logo { font-size: 25px; font-weight: 900; letter-spacing: 4px; }
-    .logo span { color: #b4d27b; }
-    nav { display: flex; gap: 24px; font-size: 13px; color: #c4c6bd; }
-    nav a:hover { color: #b4d27b; }
+    .logo { font-size: 25px; font-weight: 800; letter-spacing: 3px; }
+    .logo span { color: var(--accent); }
+    nav { display: flex; gap: 28px; font-size: 12px; letter-spacing: 1px; }
+    nav a { color: #c4c6bd; transition: color .2s; }
+    nav a:hover { color: var(--accent); }
+
     .hero {
-      min-height: 76vh; display: flex; align-items: center;
-      padding: 70px 9%;
+      min-height: 78vh;
+      display: flex;
+      align-items: center;
       background:
-        linear-gradient(90deg, rgba(5,9,5,.94), rgba(5,9,5,.35)),
-        url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2000&q=85') center/cover;
+        linear-gradient(90deg, rgba(5,9,5,.93), rgba(5,9,5,.48) 55%, rgba(5,9,5,.12)),
+        url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2200&q=85') center/cover;
     }
-    .hero-content { max-width: 680px; }
-    .eyebrow { color: #b4d27b; letter-spacing: 4px; font-size: 11px; }
-    h1 { font-size: clamp(48px, 8vw, 94px); line-height: .98; margin: 24px 0; letter-spacing: -3px; }
-    h1 span { color: #b4d27b; }
-    .hero p { color: #d0d2c9; line-height: 1.8; max-width: 480px; }
+    .hero-content { width: min(780px, 86%); margin-left: 9%; padding: 85px 0; }
+    .eyebrow, .label {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: clamp(48px, 8vw, 94px);
+      line-height: .99;
+      letter-spacing: -3px;
+      margin: 25px 0 19px;
+    }
+    h1 span { color: var(--accent); }
+    .byline {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(19px, 2.5vw, 25px);
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero-copy { max-width: 470px; color: #d0d2c9; line-height: 1.9; font-size: 14px; }
+
     .button {
-      display: inline-block; background: #b4d27b; color: #10150b;
-      padding: 15px 23px; margin-top: 30px;
-      font-weight: bold; font-size: 12px; letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 22px;
+      margin-top: 26px;
+      background: var(--accent);
+      color: #10150b;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      transition: transform .2s, background .2s;
     }
-    section { padding: 85px 7%; }
-    .section-label { color: #b4d27b; font-size: 11px; letter-spacing: 3px; }
-    h2 { font-size: clamp(30px, 5vw, 48px); margin: 14px 0 18px; }
-    .intro { color: #a9aea4; line-height: 1.8; max-width: 600px; }
-    .gallery {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px; margin-top: 35px;
+    .button:hover { transform: translateY(-2px); background: #c8e695; }
+    .button.outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .button.outline:hover { background: var(--accent); color: #10150b; }
+
+    section { padding: 100px 0; }
+    .section-heading { margin-bottom: 34px; }
+    h2 { font-size: clamp(32px, 5vw, 49px); letter-spacing: -1.5px; margin: 13px 0; }
+    .intro { max-width: 590px; color: var(--muted); line-height: 1.9; font-size: 14px; }
+
+    /* Curated, mixed-size selection */
+    .selected-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      grid-template-rows: 260px 260px;
+      gap: 14px;
     }
     .photo {
-      position: relative; overflow: hidden;
-      background: #20251e; aspect-ratio: 4/5;
+      position: relative;
+      overflow: hidden;
+      background: #20251e;
+      min-height: 180px;
     }
-    .photo img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block; transition: transform .5s;
+    .photo:first-child { grid-row: span 2; }
+    .photo img { transition: transform .6s; }
+    .photo:hover img { transform: scale(1.045); }
+    .photo::after {
+      content: "";
+      position: absolute;
+      inset: 35% 0 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.78));
+      pointer-events: none;
     }
-    .photo:hover img { transform: scale(1.06); }
-    .photo div {
-      position: absolute; inset: auto 0 0; padding: 35px 18px 18px;
-      background: linear-gradient(transparent, rgba(0,0,0,.85));
+    .photo-caption { position: absolute; bottom: 0; left: 0; z-index: 1; padding: 22px; }
+    .photo-caption h3 { font-size: 19px; }
+    .photo-caption p { margin-top: 7px; color: #d0e4ad; font-size: 10px; letter-spacing: 2px; }
+    .section-actions { margin-top: 32px; }
+
+    /* Storytelling */
+    .stories { background: var(--panel); }
+    .story-feature {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      min-height: 350px;
+      background: var(--bg);
+      border: 1px solid #292d28;
     }
-    .photo h3 { font-size: 18px; }
-    .photo p { color: #c4d9a3; font-size: 11px; margin-top: 7px; letter-spacing: 1px; }
-    .about { background: #151915; }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: center; }
-    .about-art {
-      min-height: 300px; background:
-        linear-gradient(0deg, rgba(0,0,0,.2), transparent),
-        url('https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1000&q=80') center/cover;
-    }
-    .about p { color: #b4b9af; line-height: 1.9; margin-top: 15px; }
-    .contact { text-align: center; }
-    .contact p { color: #a9aea4; line-height: 1.8; margin: 15px auto; max-width: 520px; }
+    .story-image { min-height: 300px; overflow: hidden; }
+    .story-image img { transition: transform .6s; }
+    .story-feature:hover .story-image img { transform: scale(1.03); }
+    .story-text { padding: clamp(25px, 5vw, 55px); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+    .story-text h3 { font-size: clamp(26px, 4vw, 39px); line-height: 1.2; margin: 16px 0; }
+    .story-text p { color: var(--muted); line-height: 1.9; font-size: 14px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; align-items: center; }
+    .about-image { min-height: 400px; overflow: hidden; background: #20251e; }
+    .about-copy p { color: var(--muted); line-height: 2; font-size: 14px; margin-top: 16px; }
+
+    /* Contact */
+    .contact { text-align: center; border-top: 1px solid var(--line); }
+    .contact .intro { margin: 0 auto; }
+    .social-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
     footer {
-      padding: 28px 7%; border-top: 1px solid #292d28;
-      display: flex; justify-content: space-between; gap: 15px;
-      flex-wrap: wrap; color: #8c9387; font-size: 12px;
+      padding: 28px 7%;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      color: #8c9387;
+      font-size: 12px;
     }
-    @media(max-width:700px) {
-      header { padding: 20px 5%; }
-      nav { gap: 12px; font-size: 11px; }
+    footer .logo { color: var(--text); font-size: 19px; }
+
+    @media (max-width: 700px) {
+      header { padding: 19px 6%; }
       .logo { font-size: 20px; letter-spacing: 2px; }
-      .hero { min-height: 70vh; padding: 55px 7%; }
-      section { padding: 65px 6%; }
-      .gallery { grid-template-columns: repeat(2, 1fr); gap: 9px; }
-      .about-grid { grid-template-columns: 1fr; gap: 25px; }
-      .about-art { min-height: 240px; }
+      nav { gap: 17px; font-size: 10px; }
+      .hero { min-height: 76vh; background-position: 58% center; }
+      .hero-content { margin-left: 7%; width: 86%; }
+      h1 { letter-spacing: -2px; }
+      section { padding: 70px 0; }
+      .wrap { width: 88%; }
+      .selected-grid { grid-template-rows: 210px 155px; gap: 9px; }
+      .photo-caption { padding: 12px; }
+      .photo-caption h3 { font-size: 15px; }
+      .photo-caption p { font-size: 9px; letter-spacing: 1px; }
+      .story-feature, .about-grid { grid-template-columns: 1fr; gap: 0; }
+      .story-image { min-height: 230px; }
+      .about-image { min-height: 270px; }
+      .story-text { padding: 28px 23px; }
+      footer { padding: 24px 6%; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="logo" href="#">WILDY<span>FY</span></a>
-    <nav>
-      <a href="#gallery">Gallery</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">WILDLIFE · NATURE · THE UNTAMED</div>
-        <h1>THE WILD<br>THROUGH <span>MY LENS.</span></h1>
-        <p>Every feather, every movement, every fleeting moment. Discover the extraordinary beauty of the natural world through photography.</p>
-        <a class="button" href="#gallery">EXPLORE THE GALLERY ↗</a>
+<header>
+  <a class="logo" href="#home" aria-label="WILDYFY home">WILDY<span>FY</span></a>
+  <nav aria-label="Main navigation">
+    <a href="#about">ABOUT</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="eyebrow">WILDLIFE · NATURE · THE UNTAMED</div>
+      <h1>THE WILD<br>THROUGH <span>MY LENS.</span></h1>
+      <div class="byline">A photographic collection by Steinse</div>
+      <p class="hero-copy">Moments in the wild, preserved through photography. A personal journey into the colours, characters and quiet wonders of the natural world.</p>
+      <a class="button" href="#selected">EXPLORE SELECTED WORKS ↗</a>
+    </div>
+  </section>
+
+  <section id="selected">
+    <div class="wrap">
+      <div class="section-heading">
+        <div class="label">A CURATED COLLECTION</div>
+        <h2>A glimpse into the wild.</h2>
+        <p class="intro">A few moments that caught my eye. Explore the complete collection for more encounters from the natural world.</p>
       </div>
-    </section>
 
-    <section id="gallery">
-      <div class="section-label">A COLLECTION OF MOMENTS</div>
-      <h2>Into the wild.</h2>
-      <p class="intro">A glimpse into the lives, colours and quiet wonders of the natural world.</p>
-      <div class="gallery">
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=800&q=85" alt="Colourful bird in nature" loading="lazy">
-          <div><h3>Birdlife</h3><p>WINGS & COLOURS</p></div>
-        </article>
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=800&q=85" alt="Wild tiger" loading="lazy">
-          <div><h3>Wild Encounters</h3><p>POWER & PRESENCE</p></div>
-        </article>
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=85" alt="Deer in the wild" loading="lazy">
-          <div><h3>Forest Life</h3><p>HIDDEN MOMENTS</p></div>
-        </article>
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=85" alt="Sunlight falling through a forest" loading="lazy">
-          <div><h3>Wild Places</h3><p>WHERE NATURE BREATHES</p></div>
-        </article>
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=85" alt="Natural landscape" loading="lazy">
-          <div><h3>Landscapes</h3><p>EARTH IN FRAME</p></div>
-        </article>
-        <article class="photo">
-          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=85" alt="Deep green forest" loading="lazy">
-          <div><h3>Into the Green</h3><p>THE NATURAL WORLD</p></div>
-        </article>
+      <div class="selected-grid">
+        <a class="photo" href="gallery.html" aria-label="Explore the full wildlife gallery">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=85" alt="Wild deer among the trees" loading="lazy">
+          <div class="photo-caption"><h3>Into the forest</h3><p>WILD ENCOUNTERS</p></div>
+        </a>
+        <a class="photo" href="gallery.html" aria-label="Explore bird photographs">
+          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=85" alt="Bird photographed in nature" loading="lazy">
+          <div class="photo-caption"><h3>Birdlife</h3><p>WINGS & COLOURS</p></div>
+        </a>
+        <a class="photo" href="gallery.html" aria-label="Explore nature photographs">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=85" alt="Sunlight filtering through a forest" loading="lazy">
+          <div class="photo-caption"><h3>Wild places</h3><p>WHERE NATURE BREATHES</p></div>
+        </a>
       </div>
-    </section>
 
-    <section class="about" id="about">
-      <div class="about-grid">
-        <div class="about-art" role="img" aria-label="Wild deer in a natural landscape"></div>
-        <div>
-          <div class="section-label">BEHIND THE LENS</div>
-          <h2>A passion for the wild.</h2>
-          <p>WILDYFY is a photography space dedicated to the beauty of wildlife, birds and nature. Each photograph is an invitation to slow down, observe and appreciate the incredible world around us.</p>
-          <p>From fleeting bird encounters to the stillness of the forest, the adventure is always waiting.</p>
+      <div class="section-actions">
+        <a class="button" href="gallery.html">EXPLORE THE FULL GALLERY ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stories" id="stories">
+    <div class="wrap">
+      <div class="section-heading">
+        <div class="label">BEYOND A SINGLE FRAME</div>
+        <h2>Stories from the wild.</h2>
+        <p class="intro">Some moments are best told one photograph at a time. Discover visual stories shaped by journeys, encounters and time spent observing nature.</p>
+      </div>
+
+      <article class="story-feature">
+        <a class="story-image" href="stories.html" aria-label="Explore photographic stories">
+          <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=85" alt="Wildlife in its natural habitat" loading="lazy">
+        </a>
+        <div class="story-text">
+          <div class="label">PHOTO ESSAYS & FIELD JOURNALS</div>
+          <h3>Every journey has a story.</h3>
+          <p>From a single wildlife encounter to an entire day in the forest, step inside the moments behind the photographs.</p>
+          <a class="button outline" href="stories.html">DISCOVER PHOTO STORIES ↗</a>
         </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=85" alt="A quiet forest landscape" loading="lazy">
       </div>
-    </section>
+      <div class="about-copy">
+        <div class="label">BEHIND THE LENS</div>
+        <h2>The photographer.</h2>
+        <p>I'm Steinse, the photographer behind WILDYFY. This collection is a personal pursuit of wildlife, birds and the beauty of the natural world.</p>
+        <p>Through the lens, I hope to preserve fleeting moments, encourage a closer look at nature and share the stories hidden within every encounter.</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="contact" id="contact">
-      <div class="section-label">LET'S CONNECT</div>
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="label">FOLLOW THE JOURNEY</div>
       <h2>Stay wild.</h2>
-      <p>Enjoy the photographs? Follow the journey and discover more moments from the natural world.</p>
-      <!-- Replace YOUR_USERNAME with your Instagram username -->
-      <a class="button" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">FOLLOW ON INSTAGRAM ↗</a>
-    </section>
-  </main>
+      <p class="intro">More photographs, field moments and glimpses behind the lens. Join me on Instagram and follow the journey.</p>
+      <div class="social-links">
+        <!-- Replace the URL below with your photography Instagram profile -->
+        <a class="button" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">PHOTOGRAPHY INSTAGRAM ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-  <footer>
-    <a class="logo" href="#">WILDY<span>FY</span></a>
-    <span>Wildlife · Nature · Photography</span>
-    <span>© 2026 WILDYFY</span>
-  </footer>
+<footer>
+  <a class="logo" href="#home">WILDY<span>FY</span></a>
+  <span>A photographic collection by Steinse</span>
+  <span>© 2026 WILDYFY · All rights reserved</span>
+</footer>
+
 </body>
 </html>
