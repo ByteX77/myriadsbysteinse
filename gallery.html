@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,85 +9,641 @@
 <title>Explore the Gallery | Myriads by Steinse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--green:#b4d27b;--text:#f4f3ed;--muted:#d0d7ca;--line:rgba(220,235,205,.16)}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{min-height:100vh;background:#101810;color:var(--text);font-family:"DM Sans",Arial,sans-serif;position:relative;isolation:isolate}
-body::before{content:"";position:fixed;inset:-28px;z-index:-2;background:url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=85") center/cover no-repeat;filter:blur(22px) brightness(.38) saturate(.85);transform:scale(1.06)}
-body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(135deg,rgba(8,20,10,.68),rgba(14,27,14,.58) 50%,rgba(7,17,9,.76))}
-a{color:inherit;text-decoration:none}
-header{position:sticky;top:0;z-index:20;min-height:74px;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);background:rgba(10,20,11,.78);backdrop-filter:blur(18px)}
-.logo{font-size:23px;font-weight:700;letter-spacing:2px;white-space:nowrap}.logo span,.accent{color:var(--green)}
-nav{display:flex;gap:24px;font-size:12px;color:#edf0e7}nav a:hover{color:var(--green)}
-main{padding:68px 5% 86px;max-width:1800px;margin:auto}
-.eyebrow{color:var(--green);font-size:11px;letter-spacing:3px;font-weight:700}
-h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(42px,7vw,78px);font-weight:500;letter-spacing:-1.5px;margin:15px 0 18px}
-.intro{color:#e0e6db;line-height:1.85;max-width:620px;font-size:14px}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-.filter{border:1px solid rgba(220,235,205,.25);background:rgba(15,28,16,.72);color:#edf0e7;padding:11px 18px;border-radius:999px;font:600 12px "DM Sans",sans-serif;letter-spacing:.4px;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
-.filter:hover,.filter.active{background:var(--green);color:#101810;border-color:var(--green)}
-.status{margin-top:18px;color:#d0d9ca;font-size:12px;min-height:18px}
-.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:100px;grid-auto-flow:dense;gap:9px;margin-top:22px}
-.photo{position:relative;overflow:hidden;min-width:0;min-height:0;background:rgba(20,35,20,.45);border-radius:3px;cursor:zoom-in;isolation:isolate}
-.photo:nth-child(7n + 1){grid-column:span 2;grid-row:span 3}.photo:nth-child(7n + 2){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 3){grid-column:span 1;grid-row:span 3}.photo:nth-child(7n + 4){grid-column:span 2;grid-row:span 2}.photo:nth-child(7n + 5){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 6){grid-column:span 1;grid-row:span 3}.photo:nth-child(7n){grid-column:span 2;grid-row:span 2}
-.photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .35s}.photo:hover img{transform:scale(1.035)}
-footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:11px;letter-spacing:.5px;background:rgba(9,18,10,.35)}
-.lightbox{display:none;position:fixed;inset:0;z-index:100;background:rgba(5,12,6,.97);align-items:center;justify-content:center;padding:58px 72px}
-.lightbox.open{display:flex}
-.viewer{width:min(1400px,100%);height:min(790px,86vh);display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);background:rgba(16,27,16,.98);border:1px solid rgba(220,235,205,.16);box-shadow:0 25px 90px #0008;overflow:hidden;position:relative}
-.viewer-media{min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#080d08;padding:18px;overflow:hidden}
-.viewer-media img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;opacity:1;transform:translateX(0);transition:opacity .22s ease,transform .22s ease}
-.viewer-media img.changing{opacity:0;transform:translateX(12px)}
-.viewer-info{padding:clamp(24px,4vw,54px);display:flex;flex-direction:column;justify-content:center;min-width:0;overflow-y:auto;border-left:1px solid var(--line)}
-.info-category{font-size:10px;letter-spacing:3px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:18px}
-.viewer-info h2{font:500 clamp(27px,3vw,43px)/1.18 "Playfair Display",Georgia,serif;margin-bottom:20px;overflow-wrap:anywhere}
-.description{font-size:14px;line-height:1.9;color:#d5ddd0;white-space:pre-wrap;overflow-wrap:anywhere}
-.meta{margin-top:26px;display:grid;gap:16px}
-.meta-item{border-top:1px solid var(--line);padding-top:12px}.meta-label{display:block;color:#aebc9e;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}.meta-value{font-size:12px;line-height:1.6;color:#f0f2e9}
-.viewer-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:30px;color:#b9c5b0;font-size:11px}
-.counter{font-variant-numeric:tabular-nums}
-.lbbtn{position:absolute;z-index:3;width:44px;height:44px;display:grid;place-items:center;background:rgba(28,43,26,.94);color:white;border:1px solid rgba(220,235,205,.3);border-radius:50%;cursor:pointer;font-size:25px;transition:background .2s,color .2s}
-.lbbtn:hover{background:var(--green);color:#101810}.close{top:12px;right:12px}.prev{left:12px;top:50%;transform:translateY(-50%)}.next{right:12px;top:50%;transform:translateY(-50%)}
-.empty-description{color:#9daa92;font-style:italic}
-@media(max-width:850px){main{padding:55px 4% 70px}.gallery{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:95px;gap:7px}.photo:nth-child(7n + 1),.photo:nth-child(7n + 4){grid-column:span 2}.lightbox{padding:55px 48px}.viewer{grid-template-columns:minmax(0,1.2fr) minmax(240px,.9fr);height:82vh}.viewer-info{padding:24px}}
-@media(max-width:600px){header{padding:16px 5%;min-height:65px}.logo{font-size:17px;letter-spacing:1px}nav{gap:12px;font-size:11px}main{padding:44px 4% 60px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:90px;gap:6px;margin-top:20px}.photo:nth-child(7n + 1){grid-column:span 2;grid-row:span 3}.photo:nth-child(7n + 2),.photo:nth-child(7n + 3),.photo:nth-child(7n + 5),.photo:nth-child(7n + 6){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 4),.photo:nth-child(7n){grid-column:span 2;grid-row:span 2}.filters{gap:7px}.filter{padding:10px 13px}.lightbox{padding:58px 10px 12px;align-items:center}.viewer{height:calc(100dvh - 82px);max-height:900px;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;overflow-y:auto}.viewer-media{min-height:0;padding:10px}.viewer-media img{max-width:100%;max-height:100%}.viewer-info{padding:20px 22px;border-left:0;border-top:1px solid var(--line);min-height:220px}.info-category{margin-bottom:10px}.viewer-info h2{font-size:28px;margin-bottom:12px}.description{font-size:13px;line-height:1.7}.meta{grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.viewer-footer{padding-top:18px}.lbbtn{width:38px;height:38px;font-size:21px}.close{top:10px;right:10px}.prev{left:6px}.next{right:6px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+:root {
+  --green: #b4d27b;
+  --text: #f4f3ed;
+  --muted: #d0d7ca;
+  --line: rgba(220,235,205,.16);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  background: #101810;
+  color: var(--text);
+  font-family: "DM Sans", Arial, sans-serif;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -28px;
+  z-index: -2;
+  background: url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=85") center/cover no-repeat;
+  filter: blur(22px) brightness(.38) saturate(.85);
+  transform: scale(1.06);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    135deg,
+    rgba(8,20,10,.68),
+    rgba(14,27,14,.58) 50%,
+    rgba(7,17,9,.76)
+  );
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 74px;
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(10,20,11,.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.logo span,
+.accent {
+  color: var(--green);
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+  color: #edf0e7;
+}
+
+nav a:hover { color: var(--green); }
+
+main {
+  padding: 68px 5% 86px;
+  max-width: 1800px;
+  margin: auto;
+}
+
+.eyebrow {
+  color: var(--green);
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(42px,7vw,78px);
+  font-weight: 500;
+  letter-spacing: -1.5px;
+  margin: 15px 0 18px;
+}
+
+.intro {
+  color: #e0e6db;
+  line-height: 1.85;
+  max-width: 620px;
+  font-size: 14px;
+}
+
+/* CENTRED GLASS SLIDER */
+
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  width: max-content;
+  max-width: 100%;
+  margin: 30px auto 0;
+  padding: 5px;
+  border: 1px solid rgba(230,240,220,.16);
+  border-radius: 999px;
+  background: rgba(235,245,225,.055);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 8px 30px rgba(0,0,0,.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.filter {
+  position: relative;
+  min-width: 108px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(244,243,237,.78);
+  padding: 11px 20px;
+  border-radius: 999px;
+  font: 600 12px "DM Sans", sans-serif;
+  letter-spacing: .4px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background .28s ease,
+    color .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    transform .28s ease;
+}
+
+.filter:hover {
+  background: rgba(235,245,225,.08);
+  color: #fff;
+}
+
+.filter.active {
+  background: rgba(205,226,175,.2);
+  color: #f4f3ed;
+  border-color: rgba(205,226,175,.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    0 2px 12px rgba(0,0,0,.12);
+}
+
+.filter:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.status {
+  margin-top: 18px;
+  color: #d0d9ca;
+  font-size: 12px;
+  min-height: 18px;
+}
+
+/* MASONRY-STYLE GALLERY */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  grid-auto-rows: 100px;
+  grid-auto-flow: dense;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  background: rgba(20,35,20,.45);
+  border-radius: 3px;
+  cursor: zoom-in;
+  isolation: isolate;
+}
+
+.photo:nth-child(7n + 1) {
+  grid-column: span 2;
+  grid-row: span 3;
+}
+
+.photo:nth-child(7n + 2) {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.photo:nth-child(7n + 3) {
+  grid-column: span 1;
+  grid-row: span 3;
+}
+
+.photo:nth-child(7n + 4) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.photo:nth-child(7n + 5) {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.photo:nth-child(7n + 6) {
+  grid-column: span 1;
+  grid-row: span 3;
+}
+
+.photo:nth-child(7n) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1);
+}
+
+.photo:hover img { transform: scale(1.035); }
+
+.photo.image-error {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  color: #d0d7ca;
+  font-size: 12px;
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: default;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 6%;
+  color: #d1d9ca;
+  font-size: 11px;
+  letter-spacing: .5px;
+  background: rgba(9,18,10,.35);
+}
+
+/* CINEMATIC IMAGE + DESCRIPTION VIEWER */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5,12,6,.97);
+  align-items: center;
+  justify-content: center;
+  padding: 58px 72px;
+}
+
+.lightbox.open { display: flex; }
+
+.viewer {
+  width: min(1400px,100%);
+  height: min(790px,86vh);
+  display: grid;
+  grid-template-columns: minmax(0,1.55fr) minmax(280px,.8fr);
+  background: rgba(16,27,16,.98);
+  border: 1px solid rgba(220,235,205,.16);
+  box-shadow: 0 25px 90px #0008;
+  overflow: hidden;
+  position: relative;
+}
+
+.viewer-media {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #080d08;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.viewer-media img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+.viewer-media img.changing {
+  opacity: 0;
+  transform: translateX(12px);
+}
+
+.viewer-info {
+  padding: clamp(24px,4vw,54px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  overflow-y: auto;
+  border-left: 1px solid var(--line);
+}
+
+.info-category {
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.viewer-info h2 {
+  font: 500 clamp(27px,3vw,43px)/1.18 "Playfair Display",Georgia,serif;
+  margin-bottom: 20px;
+  overflow-wrap: anywhere;
+  transition: opacity .22s ease;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #d5ddd0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  transition: opacity .22s ease;
+}
+
+.empty-description {
+  color: #9daa92;
+  font-style: italic;
+}
+
+.meta {
+  margin-top: 26px;
+  display: grid;
+  gap: 16px;
+}
+
+.meta-item {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.meta-label {
+  display: block;
+  color: #aebc9e;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.meta-value {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #f0f2e9;
+}
+
+.viewer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 30px;
+  color: #b9c5b0;
+  font-size: 11px;
+}
+
+.counter { font-variant-numeric: tabular-nums; }
+
+.lbbtn {
+  position: absolute;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: rgba(28,43,26,.94);
+  color: white;
+  border: 1px solid rgba(220,235,205,.3);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 25px;
+  transition: background .2s,color .2s;
+}
+
+.lbbtn:hover {
+  background: var(--green);
+  color: #101810;
+}
+
+.close { top: 12px; right: 12px; }
+.prev { left: 12px; top: 50%; transform: translateY(-50%); }
+.next { right: 12px; top: 50%; transform: translateY(-50%); }
+
+/* TABLET */
+
+@media(max-width:850px) {
+  main { padding: 55px 4% 70px; }
+
+  .gallery {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    grid-auto-rows: 95px;
+    gap: 7px;
+  }
+
+  .photo:nth-child(7n + 1),
+  .photo:nth-child(7n + 4) {
+    grid-column: span 2;
+  }
+
+  .lightbox { padding: 55px 48px; }
+
+  .viewer {
+    grid-template-columns: minmax(0,1.2fr) minmax(240px,.9fr);
+    height: 82vh;
+  }
+
+  .viewer-info { padding: 24px; }
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+  header {
+    padding: 16px 5%;
+    min-height: 65px;
+  }
+
+  .logo {
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
+
+  nav {
+    gap: 12px;
+    font-size: 11px;
+  }
+
+  main { padding: 44px 4% 60px; }
+
+  .filters {
+    gap: 3px;
+    margin-top: 24px;
+    padding: 4px;
+  }
+
+  .filter {
+    min-width: 0;
+    padding: 10px 13px;
+    font-size: 11px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-auto-rows: 90px;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .photo:nth-child(7n + 1) {
+    grid-column: span 2;
+    grid-row: span 3;
+  }
+
+  .photo:nth-child(7n + 2),
+  .photo:nth-child(7n + 3),
+  .photo:nth-child(7n + 5),
+  .photo:nth-child(7n + 6) {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .photo:nth-child(7n + 4),
+  .photo:nth-child(7n) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .lightbox {
+    padding: 58px 10px 12px;
+    align-items: center;
+  }
+
+  .viewer {
+    height: calc(100vh - 82px);
+    max-height: 900px;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0,1fr) auto;
+    overflow-y: auto;
+  }
+
+  .viewer-media { min-height: 0; padding: 10px; }
+
+  .viewer-media img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .viewer-info {
+    padding: 20px 22px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    min-height: 220px;
+  }
+
+  .info-category { margin-bottom: 10px; }
+
+  .viewer-info h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .description {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .meta {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .viewer-footer { padding-top: 18px; }
+
+  .lbbtn {
+    width: 38px;
+    height: 38px;
+    font-size: 21px;
+  }
+
+  .close { top: 10px; right: 10px; }
+  .prev { left: 6px; }
+  .next { right: 6px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
+
 <body>
 <header>
   <a class="logo" href="index.html">Myriads<span> by Steinse</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a></nav>
+  <nav aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="stories.html">Stories</a>
+  </nav>
 </header>
+
 <main>
   <div class="eyebrow">THE WILD THROUGH MY LENS</div>
   <h1>Explore the <span class="accent">gallery.</span></h1>
   <p class="intro">A collection of moments from the natural world. Every feather, every movement, every fleeting encounter tells a story.</p>
+
   <div class="filters" role="group" aria-label="Filter photographs">
     <button class="filter active" data-filter="all" aria-pressed="true">All Photos</button>
     <button class="filter" data-filter="wildlife" aria-pressed="false">Wildlife</button>
     <button class="filter" data-filter="nature" aria-pressed="false">Nature</button>
   </div>
+
   <p class="status" id="status" aria-live="polite">Loading photographs…</p>
   <div class="gallery" id="gallery" aria-label="Photography gallery"></div>
 </main>
+
 <footer>MYRIADS BY STEINSE · WILDLIFE · NATURE · PHOTOGRAPHY · © 2026</footer>
+
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
   <button class="lbbtn close" id="close" aria-label="Close photo viewer">×</button>
   <button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button>
+
   <div class="viewer">
-    <div class="viewer-media"><img id="large" src="" alt=""></div>
-    <section class="viewer-info" id="viewerInfo" aria-live="polite">
+    <div class="viewer-media">
+      <img id="large" src="" alt="">
+    </div>
+
+    <section class="viewer-info" aria-live="polite">
       <div class="info-category" id="infoCategory">Photography</div>
       <h2 id="infoTitle">Photograph</h2>
       <p class="description" id="infoDescription"></p>
       <div class="meta" id="meta"></div>
-      <div class="viewer-footer"><span>MYRIADS BY STEINSE</span><span class="counter" id="counter">1 / 1</span></div>
+
+      <div class="viewer-footer">
+        <span>MYRIADS BY STEINSE</span>
+        <span class="counter" id="counter">1 / 1</span>
+      </div>
     </section>
   </div>
+
   <button class="lbbtn next" id="next" aria-label="Next photo">›</button>
 </div>
+
 <script>
 (() => {
   const gallery = document.getElementById("gallery");
@@ -99,90 +656,153 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
   const meta = document.getElementById("meta");
   const counter = document.getElementById("counter");
   const filterButtons = [...document.querySelectorAll(".filter")];
+
   let allItems = [];
   let visibleItems = [];
   let current = 0;
   let priorFocus = null;
   let touchX = 0;
-  let activeFilter = "all";
-  const fallbackDescription = "A moment captured through the lens. Description coming soon.";
+  let changeTimer;
+
+  const fallbackDescription =
+    "Description coming soon. Check back for the story behind this photograph.";
 
   function imagePath(file) {
     return "images/" + file.split("/").map(encodeURIComponent).join("/");
   }
+
   function makeMeta(label, value) {
     if (!value) return;
+
     const wrap = document.createElement("div");
     wrap.className = "meta-item";
+
     const name = document.createElement("span");
     name.className = "meta-label";
     name.textContent = label;
+
     const val = document.createElement("span");
     val.className = "meta-value";
     val.textContent = value;
+
     wrap.append(name, val);
     meta.appendChild(wrap);
   }
+
   function setFilter(filter) {
     activeFilter = filter;
+
     filterButtons.forEach(button => {
       const selected = button.dataset.filter === filter;
       button.classList.toggle("active", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
-    visibleItems = allItems.filter(item => filter === "all" || item.category === filter);
+
+    visibleItems = allItems.filter(item =>
+      filter === "all" || item.category === filter
+    );
+
     render();
   }
+
   function render() {
     gallery.replaceChildren();
+
     visibleItems.forEach((item, index) => {
       const card = document.createElement("article");
       card.className = "photo";
       card.tabIndex = 0;
       card.setAttribute("role", "button");
-      card.setAttribute("aria-label", "Open " + (item.title || item.file || "photograph"));
+      card.setAttribute(
+        "aria-label",
+        "Open " + (item.title || item.file || "photograph")
+      );
+
       const img = document.createElement("img");
       img.src = imagePath(item.file);
       img.alt = item.title || "Myriads by Steinse photograph";
       img.loading = index < 4 ? "eager" : "lazy";
       img.decoding = "async";
+
       img.addEventListener("error", () => {
         card.classList.add("image-error");
-        card.innerHTML = '<span style="display:grid;place-items:center;height:100%;padding:16px;color:#d0d7ca;text-align:center;font-size:12px">Could not load:<br>' + escapeHtml(item.file) + '</span>';
-        status.textContent = "Some image files could not be loaded. Check the exact filename and extension in images/.";
+        card.replaceChildren();
+
+        const message = document.createElement("span");
+        message.textContent = "Could not load: " + item.file;
+        card.appendChild(message);
+
+        status.textContent =
+          "Some photos could not load. Check exact filenames in images/.";
       }, { once: true });
+
       card.appendChild(img);
       card.addEventListener("click", () => open(index));
+
       card.addEventListener("keydown", event => {
-        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(index); }
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          open(index);
+        }
       });
+
       gallery.appendChild(card);
     });
-    status.textContent = visibleItems.length + (visibleItems.length === 1 ? " photograph" : " photographs") +
-      (activeFilter === "all" ? " · All collections" : activeFilter === "wildlife" ? " · Wildlife collection" : " · Nature collection");
-    if (!visibleItems.length) status.textContent = "No photographs in this collection yet.";
+
+    status.textContent =
+      visibleItems.length +
+      (visibleItems.length === 1 ? " photograph" : " photographs") +
+      (activeFilter === "all"
+        ? " · All collections"
+        : activeFilter === "wildlife"
+          ? " · Wildlife collection"
+          : " · Nature collection");
+
+    if (!visibleItems.length) {
+      status.textContent = "No photographs in this collection yet.";
+    }
   }
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
-  }
+
   function show(index) {
     if (!visibleItems.length) return;
+
     current = (index + visibleItems.length) % visibleItems.length;
     const item = visibleItems[current];
+
+    clearTimeout(changeTimer);
+
     large.classList.add("changing");
     infoTitle.style.opacity = "0";
     infoDescription.style.opacity = "0";
-    window.setTimeout(() => {
+
+    changeTimer = setTimeout(() => {
       large.src = imagePath(item.file);
       large.alt = item.title || "Myriads by Steinse photograph";
-      infoCategory.textContent = item.category === "wildlife" ? "Wildlife" : "Nature";
-      infoTitle.textContent = item.title || (item.category === "wildlife" ? "Wildlife Photograph" : "Nature Photograph");
-      infoDescription.textContent = item.description || fallbackDescription;
-      infoDescription.classList.toggle("empty-description", !item.description);
+
+      infoCategory.textContent =
+        item.category === "wildlife" ? "Wildlife" : "Nature";
+
+      infoTitle.textContent =
+        item.title ||
+        (item.category === "wildlife"
+          ? "Wildlife Photograph"
+          : "Nature Photograph");
+
+      infoDescription.textContent =
+        item.description || fallbackDescription;
+
+      infoDescription.classList.toggle(
+        "empty-description",
+        !item.description
+      );
+
       meta.replaceChildren();
       makeMeta("Species", item.species);
       makeMeta("Location", item.location);
-      counter.textContent = (current + 1) + " / " + visibleItems.length;
+
+      counter.textContent =
+        (current + 1) + " / " + visibleItems.length;
+
       requestAnimationFrame(() => {
         large.classList.remove("changing");
         infoTitle.style.opacity = "1";
@@ -190,6 +810,7 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
       });
     }, 170);
   }
+
   function open(index) {
     priorFocus = document.activeElement;
     lb.classList.add("open");
@@ -198,43 +819,85 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
     show(index);
     document.getElementById("close").focus();
   }
+
   function close() {
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     large.removeAttribute("src");
     document.body.style.overflow = "";
+
     if (priorFocus) priorFocus.focus();
   }
-  document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => setFilter(button.dataset.filter)));
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      if (lb.classList.contains("open")) close();
+      setFilter(button.dataset.filter);
+    });
+  });
+
   document.getElementById("close").addEventListener("click", close);
   document.getElementById("prev").addEventListener("click", () => show(current - 1));
   document.getElementById("next").addEventListener("click", () => show(current + 1));
-  lb.addEventListener("click", event => { if (event.target === lb) close(); });
+
+  lb.addEventListener("click", event => {
+    if (event.target === lb) close();
+  });
+
   document.addEventListener("keydown", event => {
     if (!lb.classList.contains("open")) return;
+
     if (event.key === "Escape") close();
     if (event.key === "ArrowLeft") show(current - 1);
     if (event.key === "ArrowRight") show(current + 1);
   });
-  lb.addEventListener("touchstart", event => { touchX = event.changedTouches[0].screenX; }, { passive: true });
+
+  lb.addEventListener("touchstart", event => {
+    touchX = event.changedTouches[0].screenX;
+  }, { passive: true });
+
   lb.addEventListener("touchend", event => {
     const dx = event.changedTouches[0].screenX - touchX;
-    if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
+
+    if (Math.abs(dx) > 60) {
+      show(current + (dx < 0 ? 1 : -1));
+    }
   }, { passive: true });
+
   Promise.all([
-    fetch("wildlife.json", { cache: "no-cache" }).then(response => { if (!response.ok) throw new Error("wildlife.json unavailable"); return response.json(); }),
-    fetch("nature.json", { cache: "no-cache" }).then(response => { if (!response.ok) throw new Error("nature.json unavailable"); return response.json(); })
-  ]).then(([wildlife, nature]) => {
-    if (!Array.isArray(wildlife) || !Array.isArray(nature)) throw new Error("JSON files must contain arrays");
-    allItems = [
-      ...wildlife.filter(item => item && item.file).map(item => ({ ...item, category: "wildlife" })),
-      ...nature.filter(item => item && item.file).map(item => ({ ...item, category: "nature" }))
-    ];
-    setFilter("all");
-  }).catch(error => {
-    console.error(error);
-    status.textContent = "Couldn't load wildlife.json or nature.json. Make sure both files are in the repository root and valid JSON.";
-  });
+    fetch("wildlife.json", { cache: "no-cache" }).then(response => {
+      if (!response.ok) throw new Error("wildlife.json unavailable");
+      return response.json();
+    }),
+
+    fetch("nature.json", { cache: "no-cache" }).then(response => {
+      if (!response.ok) throw new Error("nature.json unavailable");
+      return response.json();
+    })
+  ])
+    .then(([wildlife, nature]) => {
+      if (!Array.isArray(wildlife) || !Array.isArray(nature)) {
+        throw new Error("JSON files must contain arrays");
+      }
+
+      allItems = [
+        ...wildlife
+          .filter(item => item && item.file)
+          .map(item => ({ ...item, category: "wildlife" })),
+
+        ...nature
+          .filter(item => item && item.file)
+          .map(item => ({ ...item, category: "nature" }))
+      ];
+
+      setFilter("all");
+    })
+    .catch(error => {
+      console.error(error);
+      status.textContent =
+        "Couldn't load wildlife.json or nature.json. " +
+        "Check that both files are in the repository root and contain valid JSON.";
+    });
 })();
 </script>
 </body>
