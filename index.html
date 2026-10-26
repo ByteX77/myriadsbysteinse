@@ -189,6 +189,81 @@
       .story-text { padding: 28px 23px; }
       footer { padding: 24px 6%; }
     }
+    
+/* WILDYFY — Full-width editorial gallery */
+
+section {
+  width: 100%;
+}
+
+.gallery,
+.gallery-preview,
+.preview-grid,
+.featured-gallery {
+  width: 100%;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 210px;
+  gap: 12px;
+}
+
+.gallery .photo {
+  min-width: 0;
+  height: 100%;
+  aspect-ratio: auto;
+  overflow: hidden;
+}
+
+.gallery .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+
+.gallery .photo:hover img {
+  transform: scale(1.04);
+}
+
+/* Give selected photos more visual importance */
+.gallery .photo:nth-child(6n + 1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.gallery .photo:nth-child(6n + 4) {
+  grid-column: span 2;
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 170px;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 145px;
+    gap: 7px;
+  }
+
+  .gallery .photo:nth-child(6n + 1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
   </style>
 </head>
 <body>
