@@ -219,43 +219,18 @@ section { width: 100%; }
 
 .tile:hover img { transform: scale(1.055); }
 
-.tile::after {
-  content: "";
-  position: absolute;
-  inset: 35% 0 0;
-  background: linear-gradient(transparent,rgba(0,0,0,.83));
-  pointer-events: none;
-}
+
 
 .tile-large { grid-column: span 2; grid-row: span 2; }
 .tile-wide { grid-column: span 2; }
 
-.tile-caption {
-  position: absolute;
-  z-index: 2;
-  left: 20px;
-  right: 16px;
-  bottom: 19px;
-}
 
-.tile-caption small {
-  color: var(--green);
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 600;
-}
 
-.tile-caption h3 {
-  margin-top: 8px;
-  font-size: clamp(17px,2vw,25px);
-  font-weight: 500;
-}
 
-.tile-caption p {
-  color: #d0d2ca;
-  font-size: 11px;
-  margin-top: 6px;
-}
+
+
+
+
 
 .gallery-footer {
   display: flex;
@@ -555,69 +530,7 @@ footer a:hover { color: var(--green); }
 
   .tile-wide { grid-column: span 1; }
 
-  .tile-caption {
-    left: 11px;
-    right: 9px;
-    bottom: 12px;
-  }
-
-  .tile-caption h3 { font-size: 16px; }
-  .tile-caption p { font-size: 9px; }
-
-  .tile-caption small {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
-
-  .story-grid {
-    grid-template-columns: 1fr;
-    gap: 35px;
-  }
-
-  .story-image { aspect-ratio: 5/3; }
-
-  .about {
-    grid-template-columns: 1fr;
-    gap: 28px;
-    padding: 60px 6%;
-  }
-
-  .about-image,.about-image img { min-height: 280px; }
-
-  .about-copy p { font-size: 14px; }
-
-  .about-copy .signature {
-    font-size: 25px;
-    margin-top: 27px;
-  }
-
-  .contact { padding: 65px 6%; }
-
-  footer {
-    justify-content: center;
-    text-align: center;
-    padding: 25px 5%;
-  }
-
-  .lightbox { padding: 50px 8px; }
-  .lightbox-image { max-height: 76vh; }
-
-  .lightbox-button {
-    width: 39px;
-    height: 39px;
-    font-size: 21px;
-  }
-
-  .lightbox-prev { left: 5px; }
-  .lightbox-next { right: 5px; }
-
-  .lightbox-caption {
-    bottom: 12px;
-    left: 45px;
-    right: 45px;
-    font-size: 11px;
-  }
-}
+  
 </style>
 </head>
 
@@ -667,27 +580,21 @@ footer a:hover { color: var(--green); }
     <div class="collage" id="featuredCollage" aria-label="Featured wildlife photographs">
       <a class="tile tile-large" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" fetchpriority="high">
-        <div class="tile-caption"><small>01 / FEATURED</small><h3>Into the wild</h3><p>Wild encounters</p></div>
       </a>
       <a class="tile" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
-        <div class="tile-caption"><small>02 / WILDLIFE</small><h3>Wild moments</h3></div>
       </a>
       <a class="tile" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
-        <div class="tile-caption"><small>03 / NATURE</small><h3>Nature in focus</h3></div>
       </a>
       <a class="tile tile-wide" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
-        <div class="tile-caption"><small>04 / WILDYFY</small><h3>Earth in frame</h3><p>Beyond the familiar</p></div>
       </a>
       <a class="tile" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
-        <div class="tile-caption"><small>05 / WILDLIFE</small><h3>Small wonders</h3></div>
       </a>
       <a class="tile" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
-        <div class="tile-caption"><small>06 / NATURE</small><h3>Stay wild</h3></div>
       </a>
     </div>
 
@@ -917,12 +824,6 @@ footer a:hover { color: var(--green); }
         const filePath = "images/" + item.file.split("/").map(encodeURIComponent).join("/");
         img.src = filePath;
         img.alt = item.title || "WILDYFY wildlife photograph";
-        const small = tile.querySelector(".tile-caption small");
-        const title = tile.querySelector(".tile-caption h3");
-        const description = tile.querySelector(".tile-caption p");
-        if (small) small.textContent = item.label || (String(index + 1).padStart(2, "0") + " / WILDYFY");
-        if (title) title.textContent = item.title || "A moment in the wild";
-        if (description) description.textContent = item.description || "Wildlife · Nature · Photography";
       });
       wireCollagePhotos();
     } catch (error) {
