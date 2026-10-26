@@ -1,19 +1,121 @@
-
 [
   {
-    "file": "IMG_5532 (WEB).JPG",
-    "title": "Nature Photograph",
-    "label": "MYRIADS BY STEINSE",
+    "image": "images/BC.JPG",
+    "title": "BC",
+    "label": "BC",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "file": "IMG_5599 (WEB).JPG",
-    "title": "Nature Photograph",
-    "label": "MYRIADS BY STEINSE",
+    "image": "images/BD.JPG",
+    "title": "BD",
+    "label": "BD",
     "description": "",
-    "species": "",
+    "location": ""
+  },
+  {
+    "image": "images/BE.jpg",
+    "title": "BE",
+    "label": "BE",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BF.jpg",
+    "title": "BF",
+    "label": "BF",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BG.JPG",
+    "title": "BG",
+    "label": "BG",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BH.JPG",
+    "title": "BH",
+    "label": "BH",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BI.JPG",
+    "title": "BI",
+    "label": "BI",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BJ.JPG",
+    "title": "BJ",
+    "label": "BJ",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BK.JPG",
+    "title": "BK",
+    "label": "BK",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BL.JPG",
+    "title": "BL",
+    "label": "BL",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BM.JPG",
+    "title": "BM",
+    "label": "BM",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BN.JPG",
+    "title": "BN",
+    "label": "BN",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BO.JPG",
+    "title": "BO",
+    "label": "BO",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BP.JPG",
+    "title": "BP",
+    "label": "BP",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BQ.jpg",
+    "title": "BQ",
+    "label": "BQ",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BR.JPG",
+    "title": "BR",
+    "label": "BR",
+    "description": "",
+    "location": ""
+  },
+  {
+    "image": "images/BS.jpg",
+    "title": "BS",
+    "label": "BS",
+    "description": "",
     "location": ""
   }
 ]
