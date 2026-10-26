@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -659,6 +660,7 @@ footer {
 
   let allItems = [];
   let visibleItems = [];
+  let activeFilter = "all";
   let current = 0;
   let priorFocus = null;
   let touchX = 0;
@@ -667,8 +669,10 @@ footer {
   const fallbackDescription =
     "Description coming soon. Check back for the story behind this photograph.";
 
-  function imagePath(file) {
-    return "images/" + file.split("/").map(encodeURIComponent).join("/");
+  function imagePath(item) {
+    const file = typeof item === "string" ? item : (item.image || item.file || "");
+    const path = file.startsWith("images/") ? file : "images/" + file;
+    return path.split("/").map(encodeURIComponent).join("/");
   }
 
   function makeMeta(label, value) {
@@ -719,7 +723,7 @@ footer {
       );
 
       const img = document.createElement("img");
-      img.src = imagePath(item.file);
+      img.src = imagePath(item);
       img.alt = item.title || "Myriads by Steinse photograph";
       img.loading = index < 4 ? "eager" : "lazy";
       img.decoding = "async";
@@ -776,7 +780,7 @@ footer {
     infoDescription.style.opacity = "0";
 
     changeTimer = setTimeout(() => {
-      large.src = imagePath(item.file);
+      large.src = imagePath(item);
       large.alt = item.title || "Myriads by Steinse photograph";
 
       infoCategory.textContent =
@@ -882,12 +886,12 @@ footer {
 
       allItems = [
         ...wildlife
-          .filter(item => item && item.file)
-          .map(item => ({ ...item, category: "wildlife" })),
+          .filter(item => item && (item.image || item.file))
+          .map(item => ({ ...item, file: item.file || item.image, category: "wildlife" })),
 
         ...nature
-          .filter(item => item && item.file)
-          .map(item => ({ ...item, category: "nature" }))
+          .filter(item => item && (item.image || item.file))
+          .map(item => ({ ...item, file: item.file || item.image, category: "nature" }))
       ];
 
       setFilter("all");
