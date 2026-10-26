@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore the Gallery | WILDYFY</title>
+<meta name="description" content="Explore wildlife, bird and nature photography by WILDYFY.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0d0b;color:#f4f3ed;font-family:Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+header{padding:24px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #292d28}
+.logo{font-size:24px;font-weight:900;letter-spacing:3px}
+.logo span,.accent{color:#b4d27b}
+nav{display:flex;gap:22px;font-size:13px;color:#c4c6bd}
+main{padding:70px 7%}
+.eyebrow{color:#b4d27b;font-size:11px;letter-spacing:3px}
+h1{font-size:clamp(40px,7vw,76px);margin:18px 0}
+.intro{color:#a9aea4;line-height:1.8;max-width:580px}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:38px}
+.photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:#20251e;cursor:pointer}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.photo:hover img{transform:scale(1.05)}
+.caption{position:absolute;bottom:0;left:0;right:0;padding:35px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.caption p{font-size:11px;color:#c4d9a3;letter-spacing:1px;margin-top:7px}
+footer{border-top:1px solid #292d28;padding:26px 7%;color:#8c9387;font-size:12px}
+.lightbox{display:none;position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.96);align-items:center;justify-content:center;padding:60px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:80vh;object-fit:contain}
+.lbbtn{position:absolute;background:#20251e;color:white;border:1px solid #555;padding:12px 16px;cursor:pointer;font-size:20px}
+.close{top:15px;right:15px}.prev{left:12px}.next{right:12px}
+.lbcaption{position:absolute;bottom:15px;text-align:center;color:#ddd;font-size:13px}
+@media(max-width:700px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}main{padding:50px 5%}header{padding:20px 5%}nav{gap:12px;font-size:12px}.lightbox{padding:45px 10px}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="index.html">WILDY<span>FY</span></a>
+<nav><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a></nav>
+</header>
+<main>
+<div class="eyebrow">THE WILD THROUGH MY LENS</div>
+<h1>Explore the <span class="accent">gallery.</span></h1>
+<p class="intro">A collection of moments from the natural world. Every feather, every movement, every fleeting encounter tells a story.</p>
+
+<div class="gallery" id="gallery">
+<article class="photo"><img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=1000&q=85" alt="Bird in nature" loading="lazy"><div class="caption"><h3>Birdlife</h3><p>WINGS & COLOURS</p></div></article>
+<article class="photo"><img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1000&q=85" alt="Tiger in the wild" loading="lazy"><div class="caption"><h3>Wild Encounters</h3><p>POWER & PRESENCE</p></div></article>
+<article class="photo"><img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1000&q=85" alt="Deer in a forest" loading="lazy"><div class="caption"><h3>Forest Life</h3><p>HIDDEN MOMENTS</p></div></article>
+<article class="photo"><img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=85" alt="Forest scenery" loading="lazy"><div class="caption"><h3>Wild Places</h3><p>WHERE NATURE BREATHES</p></div></article>
+<article class="photo"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85" alt="Landscape" loading="lazy"><div class="caption"><h3>Landscapes</h3><p>EARTH IN FRAME</p></div></article>
+<article class="photo"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=85" alt="Green woodland" loading="lazy"><div class="caption"><h3>Into the Green</h3><p>THE NATURAL WORLD</p></div></article>
+</div>
+</main>
+<footer>WILDYFY · Wildlife · Nature · Photography · © 2026</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+<button class="lbbtn close" id="close" aria-label="Close">×</button>
+<button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button>
+<img id="large" src="" alt="">
+<button class="lbbtn next" id="next" aria-label="Next photo">›</button>
+<div class="lbcaption" id="lbcaption"></div>
+</div>
+<script>
+const photos=[...document.querySelectorAll(".photo")];
+const lb=document.getElementById("lightbox"),large=document.getElementById("large");
+let current=0;
+function show(i){
+current=(i+photos.length)%photos.length;
+const img=photos[current].querySelector("img");
+large.src=img.src;large.alt=img.alt;
+document.getElementById("lbcaption").textContent=img.alt+" · "+(current+1)+" / "+photos.length;
+}
+photos.forEach((p,i)=>p.addEventListener("click",()=>{show(i);lb.classList.add("open");document.body.style.overflow="hidden"}));
+function close(){lb.classList.remove("open");large.src="";document.body.style.overflow=""}
+document.getElementById("close").onclick=close;
+document.getElementById("prev").onclick=()=>show(current-1);
+document.getElementById("next").onclick=()=>show(current+1);
+lb.addEventListener("click",e=>{if(e.target===lb)close()});
+document.addEventListener("keydown",e=>{
+if(!lb.classList.contains("open"))return;
+if(e.key==="Escape")close();
+if(e.key==="ArrowLeft")show(current-1);
+if(e.key==="ArrowRight")show(current+1);
+});
+let touchX=0;
+lb.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].screenX},{passive:true});
+lb.addEventListener("touchend",e=>{let dx=e.changedTouches[0].screenX-touchX;if(Math.abs(dx)>60)show(current+(dx<0?1:-1))},{passive:true});
+</script>
+</body>
+</html>
