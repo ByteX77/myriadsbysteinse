@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101810">
-<meta name="description" content="Explore wildlife, bird and nature photography by WILDYFY.">
-<title>Explore the Gallery | WILDYFY</title>
+<meta name="description" content="Explore wildlife, bird and nature photography by Myriads by Steinse.">
+<title>Explore the Gallery | Myriads by Steinse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -52,7 +52,7 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
 </head>
 <body>
 <header>
-  <a class="logo" href="index.html">WILDY<span>FY</span></a>
+  <a class="logo" href="index.html">Myriads<span> by Steinse</span></a>
   <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a></nav>
 </header>
 <main>
@@ -62,7 +62,7 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
   <p class="status" id="status" aria-live="polite">Loading photographs…</p>
   <div class="gallery" id="gallery" aria-label="Wildlife photography gallery"></div>
 </main>
-<footer>WILDYFY · WILDLIFE · NATURE · PHOTOGRAPHY · © 2026</footer>
+<footer>MYRIADS BY STEINSE · WILDLIFE · NATURE · PHOTOGRAPHY · © 2026</footer>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
   <button class="lbbtn close" id="close" aria-label="Close photo viewer">×</button>
   <button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button>
@@ -91,7 +91,7 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
     current = (index + cards.length) % cards.length;
     const img = cards[current].querySelector("img");
     large.src = img.src;
-    large.alt = img.alt || "WILDYFY wildlife photograph";
+    large.alt = img.alt || "Myriads by Steinse photograph";
     lbcaption.textContent = (current + 1) + " / " + cards.length;
   }
 
@@ -163,14 +163,17 @@ footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:
     if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
   }, { passive: true });
 
-  fetch("photos.json", { cache: "no-cache" })
-    .then(response => { if (!response.ok) throw new Error("Could not load photos.json"); return response.json(); })
-    .then(data => {
-      const items = Array.isArray(data) ? data : (Array.isArray(data.photos) ? data.photos : []);
-      render(items);
+  Promise.all([
+    fetch("wildlife.json", { cache: "no-cache" }).then(response => { if (!response.ok) throw new Error("Could not load wildlife.json"); return response.json(); }),
+    fetch("nature.json", { cache: "no-cache" }).then(response => { if (!response.ok) throw new Error("Could not load nature.json"); return response.json(); })
+  ])
+    .then(([wildlife, nature]) => {
+      const wildlifeItems = Array.isArray(wildlife) ? wildlife.map(item => ({ ...item, category: "wildlife" })) : [];
+      const natureItems = Array.isArray(nature) ? nature.map(item => ({ ...item, category: "nature" })) : [];
+      render([...wildlifeItems, ...natureItems]);
     })
     .catch(() => {
-      status.textContent = "Couldn't load photos.json. Check that it is in the repository root and contains valid JSON.";
+      status.textContent = "Couldn't load wildlife.json or nature.json. Check that both files are in the repository root and contain valid JSON.";
     });
 })();
 </script>
