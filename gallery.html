@@ -3,124 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0d0b">
+<meta name="theme-color" content="#101810">
+<meta name="description" content="Explore wildlife, bird and nature photography by WILDYFY.">
 <title>Explore the Gallery | WILDYFY</title>
-<meta name="description" content="Explore wildlife and nature photographs by Steinse, from Kerala, India.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0d0b;--panel:#131713;--text:#f4f3ed;--muted:#a6ada0;--green:#b4d27b;--line:#292e27}
-*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--text);font-family:"DM Sans",Arial,sans-serif}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
-header{position:sticky;top:0;z-index:20;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(11,13,11,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.logo{font-size:24px;font-weight:700;letter-spacing:4px;white-space:nowrap}.logo span,.accent{color:var(--green)}nav{display:flex;gap:24px;font-size:12px;color:#c4c8bf}nav a:hover{color:var(--green)}
-main{padding:75px 5% 90px}.eyebrow{color:var(--green);font-size:11px;letter-spacing:4px;font-weight:600}h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(40px,7vw,76px);font-weight:500;letter-spacing:-1.5px;margin:18px 0}.intro{color:var(--muted);line-height:1.9;max-width:620px;font-size:14px}
-.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:38px}.photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:#20251e;cursor:zoom-in;isolation:isolate}.photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.photo:hover img{transform:scale(1.045)}.photo:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.82));pointer-events:none}.caption{position:absolute;z-index:1;bottom:0;left:0;right:0;padding:35px 16px 16px}.caption h2{font-size:18px;font-weight:500}.caption p{font-size:10px;color:var(--green);letter-spacing:2px;margin-top:7px}
-footer{border-top:1px solid var(--line);padding:26px 5%;color:#8c9387;font-size:11px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(3,5,3,.97);align-items:center;justify-content:center;padding:60px 70px}.lightbox.open{display:flex}.lightbox img{max-width:100%;max-height:82vh;object-fit:contain;user-select:none}.lbbtn{position:absolute;z-index:2;width:46px;height:46px;border-radius:50%;background:#151a13;color:white;border:1px solid #4a5145;cursor:pointer;font-size:25px}.lbbtn:hover{background:var(--green);color:#111}.close{top:17px;right:20px}.prev{left:14px;top:50%;transform:translateY(-50%)}.next{right:14px;top:50%;transform:translateY(-50%)}.lbcaption{position:absolute;bottom:18px;left:60px;right:60px;text-align:center;color:#e8eae3;font-size:13px}
-@media(max-width:800px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}main{padding:58px 4% 70px}header{padding:18px 4%}nav{gap:14px}}@media(max-width:480px){.logo{font-size:19px;letter-spacing:2px}nav{gap:10px;font-size:11px}main{padding-top:45px}.gallery{gap:7px}.caption{padding:28px 10px 12px}.caption h2{font-size:15px}.caption p{font-size:8px;letter-spacing:1px}.lightbox{padding:50px 8px}.lightbox img{max-height:76vh}.lbbtn{width:39px;height:39px;font-size:21px}.prev{left:5px}.next{right:5px}.lbcaption{left:45px;right:45px;font-size:11px}}
+:root{--green:#b4d27b;--text:#f4f3ed;--muted:#d0d7ca;--line:rgba(220,235,205,.13)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{min-height:100vh;background:#101810;color:var(--text);font-family:"DM Sans",Arial,sans-serif;position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:-28px;z-index:-2;background:url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=85") center/cover no-repeat;filter:blur(22px) brightness(.38) saturate(.85);transform:scale(1.06)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(135deg,rgba(8,20,10,.65),rgba(14,27,14,.55) 50%,rgba(7,17,9,.72))}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:20;min-height:74px;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);background:rgba(10,20,11,.68);backdrop-filter:blur(18px)}
+.logo{font-size:23px;font-weight:700;letter-spacing:3px;white-space:nowrap}
+.logo span,.accent{color:var(--green)}
+nav{display:flex;gap:24px;font-size:12px;color:#edf0e7}
+nav a:hover{color:var(--green)}
+main{padding:68px 5% 86px;max-width:1800px;margin:auto}
+.eyebrow{color:var(--green);font-size:11px;letter-spacing:3px;font-weight:700}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(42px,7vw,78px);font-weight:500;letter-spacing:-1.5px;margin:15px 0 18px}
+.intro{color:#e0e6db;line-height:1.85;max-width:620px;font-size:14px}
+.status{margin-top:18px;color:#d0d9ca;font-size:12px}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:100px;grid-auto-flow:dense;gap:9px;margin-top:38px}
+.photo{position:relative;overflow:hidden;min-width:0;min-height:0;background:rgba(20,35,20,.45);border-radius:3px;cursor:zoom-in;isolation:isolate}
+.photo:nth-child(7n + 1){grid-column:span 2;grid-row:span 3}
+.photo:nth-child(7n + 2){grid-column:span 1;grid-row:span 2}
+.photo:nth-child(7n + 3){grid-column:span 1;grid-row:span 3}
+.photo:nth-child(7n + 4){grid-column:span 2;grid-row:span 2}
+.photo:nth-child(7n + 5){grid-column:span 1;grid-row:span 2}
+.photo:nth-child(7n + 6){grid-column:span 1;grid-row:span 3}
+.photo:nth-child(7n){grid-column:span 2;grid-row:span 2}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .35s}
+.photo:hover img{transform:scale(1.035)}
+footer{border-top:1px solid var(--line);padding:26px 6%;color:#d1d9ca;font-size:11px;letter-spacing:.5px;background:rgba(9,18,10,.35)}
+.lightbox{display:none;position:fixed;inset:0;z-index:100;background:rgba(5,12,6,.96);align-items:center;justify-content:center;padding:60px 70px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:82vh;object-fit:contain;user-select:none}
+.lbbtn{position:absolute;width:46px;height:46px;display:grid;place-items:center;background:rgba(28,43,26,.9);color:white;border:1px solid rgba(220,235,205,.3);border-radius:50%;cursor:pointer;font-size:25px}
+.lbbtn:hover{background:var(--green);color:#101810}
+.close{top:17px;right:20px}.prev{left:15px;top:50%;transform:translateY(-50%)}.next{right:15px;top:50%;transform:translateY(-50%)}
+.lbcaption{position:absolute;bottom:18px;left:60px;right:60px;text-align:center;color:#e3e9de;font-size:12px}
+@media(max-width:850px){main{padding:55px 4% 70px}.gallery{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:95px;gap:7px}.photo:nth-child(7n + 1){grid-column:span 2}.photo:nth-child(7n + 4){grid-column:span 2}}
+@media(max-width:560px){header{padding:16px 5%;min-height:65px}.logo{font-size:20px;letter-spacing:2px}nav{gap:13px;font-size:11px}main{padding:44px 4% 60px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:90px;gap:6px;margin-top:28px}.photo:nth-child(7n + 1){grid-column:span 2;grid-row:span 3}.photo:nth-child(7n + 2){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 3){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 4){grid-column:span 2;grid-row:span 2}.photo:nth-child(7n + 5){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n + 6){grid-column:span 1;grid-row:span 2}.photo:nth-child(7n){grid-column:span 2;grid-row:span 2}.lightbox{padding:50px 8px}.lightbox img{max-height:76vh}.lbbtn{width:39px;height:39px;font-size:21px}.prev{left:5px}.next{right:5px}.lbcaption{bottom:12px;left:45px;right:45px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header><a class="logo" href="index.html">WILDY<span>FY</span></a><nav aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a><a href="index.html#about">About</a></nav></header>
-<main><div class="eyebrow">THE WILD THROUGH MY LENS</div><h1>Explore the <span class="accent">gallery.</span></h1><p class="intro">A collection of moments from the natural world, captured through my lens. Every photograph is an invitation to pause, explore and appreciate the beauty of nature.</p>
-<div class="gallery" id="gallery" aria-live="polite"><p class="intro" id="galleryStatus">Loading photographs…</p></div></main><footer><a class="logo" href="index.html">WILDY<span>FY</span></a><span>WILDLIFE · NATURE · PHOTOGRAPHY</span><span>© 2026 WILDYFY</span></footer>
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true"><button class="lbbtn close" id="close" aria-label="Close">×</button><button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button><img id="large" src="" alt=""><button class="lbbtn next" id="next" aria-label="Next photo">›</button><div class="lbcaption" id="lbcaption"></div></div>
+<header>
+  <a class="logo" href="index.html">WILDY<span>FY</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="stories.html">Stories</a></nav>
+</header>
+<main>
+  <div class="eyebrow">THE WILD THROUGH MY LENS</div>
+  <h1>Explore the <span class="accent">gallery.</span></h1>
+  <p class="intro">A collection of moments from the natural world. Every feather, every movement, every fleeting encounter tells a story.</p>
+  <p class="status" id="status" aria-live="polite">Loading photographs…</p>
+  <div class="gallery" id="gallery" aria-label="Wildlife photography gallery"></div>
+</main>
+<footer>WILDYFY · WILDLIFE · NATURE · PHOTOGRAPHY · © 2026</footer>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+  <button class="lbbtn close" id="close" aria-label="Close photo viewer">×</button>
+  <button class="lbbtn prev" id="prev" aria-label="Previous photo">‹</button>
+  <img id="large" src="" alt="">
+  <button class="lbbtn next" id="next" aria-label="Next photo">›</button>
+  <div class="lbcaption" id="lbcaption"></div>
+</div>
 <script>
-(async () => {
+(() => {
   const gallery = document.getElementById("gallery");
-  const status = document.getElementById("galleryStatus");
+  const status = document.getElementById("status");
   const lb = document.getElementById("lightbox");
   const large = document.getElementById("large");
-  const cap = document.getElementById("lbcaption");
-  let photos = [];
+  const lbcaption = document.getElementById("lbcaption");
+  let cards = [];
   let current = 0;
-  let focusBefore = null;
+  let priorFocus = null;
   let touchX = 0;
 
-  function show(index) {
-    current = (index + photos.length) % photos.length;
-    const img = photos[current].querySelector("img");
-    large.src = img.currentSrc || img.src;
-    large.alt = img.alt;
-    cap.textContent = (img.alt || "WILDYFY photograph") + " · " + (current + 1) + " / " + photos.length;
+  function imagePath(file) {
+    return "images/" + file.split("/").map(encodeURIComponent).join("/");
   }
+
+  function show(index) {
+    if (!cards.length) return;
+    current = (index + cards.length) % cards.length;
+    const img = cards[current].querySelector("img");
+    large.src = img.src;
+    large.alt = img.alt || "WILDYFY wildlife photograph";
+    lbcaption.textContent = (current + 1) + " / " + cards.length;
+  }
+
   function open(index) {
-    focusBefore = document.activeElement;
+    priorFocus = document.activeElement;
     show(index);
     lb.classList.add("open");
     lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     document.getElementById("close").focus();
   }
+
   function close() {
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     large.removeAttribute("src");
     document.body.style.overflow = "";
-    if (focusBefore) focusBefore.focus();
+    if (priorFocus) priorFocus.focus();
   }
 
-  try {
-    const response = await fetch("photos.json", { cache: "no-store" });
-    if (!response.ok) throw new Error("Could not load photos.json");
-    const list = await response.json();
-    if (!Array.isArray(list)) throw new Error("photos.json must contain a list of photos");
+  function render(items) {
     gallery.replaceChildren();
-    list.forEach((item, index) => {
-      const filename = typeof item === "string" ? item : item.file;
-      const title = typeof item === "string" ? `Wild moment ${String(index + 1).padStart(2, "0")}` : (item.title || `Wild moment ${String(index + 1).padStart(2, "0")}`);
-      const label = typeof item === "string" ? "WILDYFY · PHOTOGRAPHY" : (item.label || "WILDYFY · PHOTOGRAPHY");
-      if (!filename) return;
-      const article = document.createElement("article");
-      article.className = "photo";
+    cards = [];
+    items.forEach((item, index) => {
+      const file = typeof item === "string" ? item : item.file;
+      if (!file) return;
+      const card = document.createElement("article");
+      card.className = "photo";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", "Open photograph " + (index + 1));
       const img = document.createElement("img");
-      img.src = "images/" + encodeURIComponent(filename).replace(/%2F/g, "/");
-      img.alt = title + " by Steinse";
-      img.loading = "lazy";
-      img.onerror = () => { article.remove(); };
-      const caption = document.createElement("div");
-      caption.className = "caption";
-      const heading = document.createElement("h2");
-      heading.textContent = title;
-      const sub = document.createElement("p");
-      sub.textContent = label;
-      caption.append(heading, sub);
-      article.append(img, caption);
-      gallery.append(article);
-    });
-    photos = [...gallery.querySelectorAll(".photo")];
-    if (photos.length === 0) {
-      gallery.innerHTML = '<p class="intro">No photographs found yet. Add image filenames to photos.json.</p>';
-    }
-    photos.forEach((article, index) => {
-      const img = article.querySelector("img");
-      img.tabIndex = 0;
-      img.setAttribute("role", "button");
-      img.setAttribute("aria-label", "Enlarge " + img.alt);
-      img.addEventListener("click", () => open(index));
-      img.addEventListener("keydown", event => {
-        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(index); }
+      img.src = imagePath(file);
+      img.alt = "";
+      img.loading = index < 4 ? "eager" : "lazy";
+      img.decoding = "async";
+      img.addEventListener("error", () => {
+        card.remove();
+        cards = [...gallery.querySelectorAll(".photo")];
+        status.textContent = "Some photos could not be loaded. Check that filenames in photos.json exactly match files in images/.";
+      }, { once: true });
+      card.appendChild(img);
+      card.addEventListener("click", () => open(cards.indexOf(card)));
+      card.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          open(cards.indexOf(card));
+        }
       });
+      gallery.appendChild(card);
+      cards.push(card);
     });
-  } catch (error) {
-    gallery.innerHTML = '<p class="intro">The gallery could not load. Please check that photos.json is in the main repository folder and contains valid JSON.</p>';
-    console.error(error);
+    status.textContent = cards.length ? cards.length + " photographs" : "No photographs found. Add photo filenames to photos.json.";
   }
 
   document.getElementById("close").addEventListener("click", close);
-  document.getElementById("prev").addEventListener("click", () => { if (photos.length) show(current - 1); });
-  document.getElementById("next").addEventListener("click", () => { if (photos.length) show(current + 1); });
+  document.getElementById("prev").addEventListener("click", () => show(current - 1));
+  document.getElementById("next").addEventListener("click", () => show(current + 1));
   lb.addEventListener("click", event => { if (event.target === lb) close(); });
   document.addEventListener("keydown", event => {
     if (!lb.classList.contains("open")) return;
     if (event.key === "Escape") close();
-    if (event.key === "ArrowLeft" && photos.length) show(current - 1);
-    if (event.key === "ArrowRight" && photos.length) show(current + 1);
+    if (event.key === "ArrowLeft") show(current - 1);
+    if (event.key === "ArrowRight") show(current + 1);
   });
   lb.addEventListener("touchstart", event => { touchX = event.changedTouches[0].screenX; }, { passive: true });
   lb.addEventListener("touchend", event => {
     const dx = event.changedTouches[0].screenX - touchX;
-    if (Math.abs(dx) > 60 && photos.length) show(current + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
   }, { passive: true });
+
+  fetch("photos.json", { cache: "no-cache" })
+    .then(response => { if (!response.ok) throw new Error("Could not load photos.json"); return response.json(); })
+    .then(data => {
+      const items = Array.isArray(data) ? data : (Array.isArray(data.photos) ? data.photos : []);
+      render(items);
+    })
+    .catch(() => {
+      status.textContent = "Couldn't load photos.json. Check that it is in the repository root and contains valid JSON.";
+    });
 })();
-</script></body></html>
+</script>
+</body>
+</html>
