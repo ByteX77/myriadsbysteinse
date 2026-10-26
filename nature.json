@@ -21,13 +21,6 @@
     "location": ""
   },
   {
-    "image": "images/BF.jpg",
-    "title": "BF",
-    "label": "BF",
-    "description": "",
-    "location": ""
-  },
-  {
     "image": "images/BG.JPG",
     "title": "BG",
     "label": "BG",
@@ -52,13 +45,6 @@
     "image": "images/BJ.JPG",
     "title": "BJ",
     "label": "BJ",
-    "description": "",
-    "location": ""
-  },
-  {
-    "image": "images/BK.JPG",
-    "title": "BK",
-    "label": "BK",
     "description": "",
     "location": ""
   },
