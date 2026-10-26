@@ -193,9 +193,10 @@ section { width: 100%; }
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4,minmax(0,1fr));
-  grid-auto-rows: minmax(170px,16vw);
+  grid-auto-rows: clamp(105px, 12vw, 190px);
   grid-auto-flow: dense;
-  gap: 12px;
+  gap: 10px;
+  align-items: stretch;
 }
 
 .tile {
@@ -235,8 +236,10 @@ section { width: 100%; }
 
 
 
-.tile-large { grid-column: span 2; grid-row: span 2; }
-.tile-wide { grid-column: span 2; }
+.tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
+.tile-wide, .tile-2x1 { grid-column: span 2; grid-row: span 1; }
+.tile-tall, .tile-1x2 { grid-column: span 1; grid-row: span 2; }
+.tile-square, .tile-1x1 { grid-column: span 1; grid-row: span 1; }
 
 
 
@@ -482,12 +485,9 @@ footer a:hover { color: var(--green); }
     grid-auto-rows: 190px;
   }
 
-  .tile-large {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .tile-wide { grid-column: span 1; }
+  .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
+  .tile-wide, .tile-2x1 { grid-column: span 2; grid-row: span 1; }
+  .tile-tall, .tile-1x2 { grid-column: span 1; grid-row: span 2; }
 
   .about {
     padding: 75px 6%;
@@ -537,12 +537,9 @@ footer a:hover { color: var(--green); }
     gap: 7px;
   }
 
-  .tile-large {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .tile-wide { grid-column: span 1; }
+  .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
+  .tile-wide, .tile-2x1 { grid-column: span 2; grid-row: span 1; }
+  .tile-tall, .tile-1x2 { grid-column: span 1; grid-row: span 2; }
 
   
 </style>
@@ -818,20 +815,49 @@ footer a:hover { color: var(--green); }
     return result;
   }
 
+  function makeTile() {
+    const tile = document.createElement("a");
+    tile.className = "tile";
+    tile.href = "gallery.html";
+    tile.setAttribute("aria-label", "View featured photograph");
+    return tile;
+  }
+
+  function applyRandomTileSizes(tiles) {
+    const patterns = ["tile-2x2", "tile-2x1", "tile-1x2", "tile-1x1", "tile-1x1", "tile-1x1"];
+    const sizes = shuffle(patterns);
+    tiles.forEach((tile, index) => {
+      tile.classList.remove("tile-large", "tile-wide", "tile-tall", "tile-square", "tile-2x2", "tile-2x1", "tile-1x2", "tile-1x1");
+      tile.classList.add(sizes[index % sizes.length]);
+    });
+  }
+
   async function loadFeaturedPhotos() {
-    const tiles = [...document.querySelectorAll("#featuredCollage .tile")];
+    const collage = document.getElementById("featuredCollage");
     try {
       const response = await fetch("photos.json?updated=" + Date.now(), { cache: "no-store" });
       if (!response.ok) throw new Error("Could not load photos.json");
       const list = await response.json();
       if (!Array.isArray(list) || !list.length) throw new Error("Photo list is empty");
 
-      const selected = shuffle(list).slice(0, Math.min(6, list.length));
-      const swaps = selected.map((item, index) => {
-        const tile = tiles[index];
-        if (!tile) return Promise.resolve();
-        tile.hidden = false;
+      // Use 8 or more photos when available, up to the full collection, to make the collage feel fuller.
+      const minCount = Math.min(8, list.length);
+      const maxCount = Math.min(list.length, 14);
+      const count = minCount + Math.floor(Math.random() * (maxCount - minCount + 1));
+      const selected = shuffle(list).slice(0, count);
+      let tiles = [...collage.querySelectorAll(":scope > .tile")];
 
+      while (tiles.length < selected.length) {
+        const tile = makeTile();
+        collage.appendChild(tile);
+        tiles.push(tile);
+      }
+      tiles.forEach((tile, index) => { tile.hidden = index >= selected.length; });
+      const activeTiles = tiles.slice(0, selected.length);
+      applyRandomTileSizes(activeTiles);
+
+      const swaps = selected.map((item, index) => {
+        const tile = activeTiles[index];
         const oldImg = tile.querySelector("img.tile-current") || tile.querySelector("img:not(.tile-next)");
         const nextImg = document.createElement("img");
         nextImg.className = "tile-next";
@@ -855,7 +881,6 @@ footer a:hover { color: var(--green); }
 
           nextImg.onload = () => {
             tile.appendChild(nextImg);
-            // Allow the browser to paint the new image behind the old one before fading it up.
             requestAnimationFrame(() => requestAnimationFrame(() => {
               nextImg.classList.add("is-visible");
               if (oldImg && oldImg !== nextImg) oldImg.classList.add("tile-old");
@@ -864,19 +889,16 @@ footer a:hover { color: var(--green); }
           };
           nextImg.onerror = () => {
             nextImg.remove();
-            // Keep the previous photograph visible if a new file cannot load.
             resolve();
           };
           nextImg.src = filePath;
         });
       });
 
-      tiles.forEach((tile, index) => { if (index >= selected.length) tile.hidden = true; });
       await Promise.all(swaps);
       wireCollagePhotos();
     } catch (error) {
       console.error("WILDYFY featured collage could not load photos.json:", error);
-      const collage = document.getElementById("featuredCollage");
       if (!collage.querySelector("img.tile-current")) {
         collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check photos.json.</p>';
       }
