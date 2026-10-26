@@ -972,7 +972,7 @@ footer a:hover { color: var(--green); }
       await Promise.all(swaps);
       wireCollagePhotos();
     } catch (error) {
-      console.error("Myriads by Steinse featured collage could not load photos.json:", error);
+      console.error("Myriads by Steinse featured collage could not load wildlife.json or nature.json:", error);
       if (!collage.querySelector("img.tile-current")) {
         collage.innerHTML = '<p style="color:#a6ada0;grid-column:1/-1">Featured photographs could not load. Please check wildlife.json, nature.json and image filenames.</p>';
       }
