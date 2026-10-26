@@ -210,7 +210,7 @@ section { width: 100%; }
   grid-template-columns: repeat(4,minmax(0,1fr));
   grid-auto-rows: clamp(105px, 12vw, 190px);
   grid-auto-flow: dense;
-  gap: 4px;
+  gap: clamp(12px, 1.5vw, 20px);
   align-items: stretch;
 }
 
@@ -219,10 +219,28 @@ section { width: 100%; }
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background: rgba(24, 39, 24, .5);
-  border-radius: 3px;
+  background: #050705;
+  border-radius: 0;
   cursor: zoom-in;
   isolation: isolate;
+}
+
+/* Softly darken each photo's perimeter so it melts into the black-green ground. */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 56%, rgba(5, 7, 5, .18) 76%, rgba(5, 7, 5, .72) 100%),
+    linear-gradient(90deg, rgba(5, 7, 5, .22), transparent 12%, transparent 88%, rgba(5, 7, 5, .22));
+  opacity: .82;
+  transition: opacity .5s ease;
+}
+
+.tile:hover::after {
+  opacity: .42;
 }
 
 .tile img {
@@ -500,6 +518,7 @@ footer a:hover { color: var(--green); }
     grid-template-columns: repeat(3,minmax(0,1fr));
     grid-template-rows: none;
     grid-auto-rows: 190px;
+    gap: 14px;
   }
 
   .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
@@ -551,7 +570,7 @@ footer a:hover { color: var(--green); }
     grid-template-columns: repeat(2,minmax(0,1fr));
     grid-template-rows: none;
     grid-auto-rows: 155px;
-    gap: 7px;
+    gap: 10px;
   }
 
   .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
