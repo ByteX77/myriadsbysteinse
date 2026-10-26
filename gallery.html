@@ -219,6 +219,23 @@ h1 {
   isolation: isolate;
 }
 
+/* Soft blackened edges, matching the featured-photo collage on the homepage. */
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 46%, rgba(5,7,5,.22) 66%, rgba(5,7,5,.68) 84%, #050705 100%),
+    linear-gradient(to right, #050705 0%, transparent 9%, transparent 91%, #050705 100%),
+    linear-gradient(to bottom, #050705 0%, transparent 9%, transparent 91%, #050705 100%);
+  opacity: .88;
+  transition: opacity .45s ease;
+}
+
+.photo:hover::after { opacity: .58; }
+
 .photo:nth-child(7n + 1) {
   grid-column: span 2;
   grid-row: span 3;
@@ -260,6 +277,8 @@ h1 {
   height: 100%;
   object-fit: cover;
   transition: transform .7s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  z-index: 0;
 }
 
 .photo:hover img { transform: scale(1.035); }
