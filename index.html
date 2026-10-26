@@ -14,8 +14,8 @@
 
 <style>
 :root {
-  --bg: #0b0d0b;
-  --panel: #131713;
+  --bg: #10180f;
+  --panel: rgba(15, 28, 16, .72);
   --text: #f4f3ed;
   --muted: #a6ada0;
   --green: #b4d27b;
@@ -34,6 +34,21 @@ body {
   color: var(--text);
   font-family: "DM Sans", Arial, sans-serif;
   overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Soft, blurred forest-green atmosphere behind the entire site */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -35px;
+  z-index: -1;
+  pointer-events: none;
+  background: url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=85") center / cover no-repeat;
+  filter: blur(28px) brightness(.42) saturate(.9);
+  transform: scale(1.06);
+  opacity: .78;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -53,8 +68,8 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  background: rgba(11,13,11,.94);
-  border-bottom: 1px solid var(--line);
+  background: rgba(10, 22, 12, .78);
+  border-bottom: 1px solid rgba(180,210,123,.10);
   backdrop-filter: blur(14px);
 }
 
@@ -195,7 +210,7 @@ section { width: 100%; }
   grid-template-columns: repeat(4,minmax(0,1fr));
   grid-auto-rows: clamp(105px, 12vw, 190px);
   grid-auto-flow: dense;
-  gap: 10px;
+  gap: 4px;
   align-items: stretch;
 }
 
@@ -204,7 +219,8 @@ section { width: 100%; }
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background: #20251e;
+  background: rgba(24, 39, 24, .5);
+  border-radius: 3px;
   cursor: zoom-in;
   isolation: isolate;
 }
@@ -257,7 +273,8 @@ section { width: 100%; }
 
 .stories {
   padding: 85px 5%;
-  background: var(--panel);
+  background: rgba(13, 25, 14, .48);
+  backdrop-filter: blur(8px);
 }
 
 .stories-heading {
@@ -840,9 +857,9 @@ footer a:hover { color: var(--green); }
       const list = await response.json();
       if (!Array.isArray(list) || !list.length) throw new Error("Photo list is empty");
 
-      // Use 8 or more photos when available, up to the full collection, to make the collage feel fuller.
-      const minCount = Math.min(8, list.length);
-      const maxCount = Math.min(list.length, 14);
+      // Keep the collage curated: show only 6–8 random photos, never the entire collection.
+      const minCount = Math.min(6, list.length);
+      const maxCount = Math.min(list.length, 8);
       const count = minCount + Math.floor(Math.random() * (maxCount - minCount + 1));
       const selected = shuffle(list).slice(0, count);
       let tiles = [...collage.querySelectorAll(":scope > .tile")];
