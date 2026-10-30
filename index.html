@@ -59,6 +59,8 @@ img { display: block; max-width: 100%; }
 
 ::selection { background: var(--green); color: #111; }
 
+.brand-logo-img { display:block; width:min(360px, 34vw); max-height:82px; height:auto; object-fit:contain; flex:0 1 auto; }
+
 header {
   position: sticky;
   top: 0;
@@ -579,7 +581,7 @@ footer a:hover { color: var(--green); }
     gap: 12px;
   }
 
-  .brand-logo-img { width: min(175px, 38vw); max-height: 52px; }
+  .brand-logo-img { width: min(175px, 38vw); max-height: 52px; height:auto; }
   nav { gap: 13px; }
   nav a { font-size: 11px; }
   .nav-cta { display: none; }
@@ -623,7 +625,7 @@ footer a:hover { color: var(--green); }
 <body>
 
 <header>
-  <a class="logo" href="index.html" aria-label="Myriads by Steinse home"><img class="brand-logo-img" src="myriads-logo.png" alt="Myriads by Steinse logo"></a>
+  <a class="logo" href="index.html" aria-label="Myriads by Steinse home"><img class="brand-logo-img" src="myriads-logo-fixed.png" alt="Myriads by Steinse logo"></a>
   <nav aria-label="Main navigation">
     <a href="index.html">Home</a>
     <a href="gallery.html">Gallery</a>
