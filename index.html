@@ -767,7 +767,7 @@ footer a:hover { color: var(--green); }
   display:grid; grid-template-columns:1.12fr .88fr; grid-template-rows:repeat(2,minmax(145px,1fr));
   gap:7px; width:100%; min-height:510px; max-height:690px; aspect-ratio:4/5; background:#050705;
 }
-.film-thumb { position:relative; min-width:0; min-height:0; overflow:hidden; padding:0; border:0; background:#0b130b; cursor:pointer; isolation:isolate; }
+.film-thumb { appearance:none; -webkit-appearance:none; display:block; width:100%; height:100%; text-align:left; position:relative; min-width:0; min-height:0; overflow:hidden; padding:0; border:0; background:#0b130b; cursor:pointer; isolation:isolate; }
 .film-thumb:first-child { grid-row:1 / span 2; }
 .film-thumb:only-child { grid-column:1 / -1; grid-row:1 / -1; }
 .film-thumb video,.film-thumb img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; background:#050705; }
@@ -781,8 +781,8 @@ footer a:hover { color: var(--green); }
 .film-copy-detail p { margin:0; }
 .film-copy-detail .film-detail-location { color:#b9c5b0; font-size:11px; letter-spacing:1px; margin-top:14px; }
 .film-loading,.film-empty { grid-column:1/-1; align-self:center; justify-self:center; padding:25px; color:#aebc9e; text-align:center; font-size:12px; letter-spacing:1px; }
-.film-viewer { display:none; position:fixed; inset:0; z-index:1200; background:rgba(3,6,3,.97); align-items:center; justify-content:center; padding:58px 68px; }
-.film-viewer.open { display:flex; }
+.film-viewer { display:none; position:fixed !important; inset:0 !important; z-index:99999 !important; width:100vw; height:100dvh; background:rgba(3,6,3,.97); align-items:center; justify-content:center; padding:58px 68px; }
+.film-viewer.open { display:flex !important; }
 .film-viewer-shell { position:relative; width:min(1450px,100%); height:min(820px,88vh); display:grid; grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr); overflow:hidden; background:rgba(16,27,16,.52); border:1px solid rgba(190,215,165,.16); box-shadow:0 25px 90px rgba(0,0,0,.5); backdrop-filter:blur(28px) saturate(155%); }
 .film-viewer-media { min-width:0; min-height:0; display:flex; align-items:center; justify-content:center; padding:18px; background:#050805; overflow:hidden; }
 .film-viewer-media video { display:block; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; background:#000; }
@@ -894,12 +894,6 @@ footer a:hover { color: var(--green); }
         <h2 id="films-title">Stories in <span class="accent">motion.</span></h2>
         <p>Some moments are best experienced as they unfold. A moving window into the natural world, captured through the lens.</p>
         <span class="film-number" id="filmCount">MYRIADS FILMS</span>
-        <div class="film-copy-detail" id="filmCopyDetail" aria-live="polite">
-          <div class="film-detail-category" id="filmDetailCategory">SELECT A FILM</div>
-          <h3 id="filmDetailTitle">A moving window into the wild.</h3>
-          <p id="filmDetailDescription">Choose any cover in the collection to play its video right there, with its story and details displayed alongside.</p>
-          <div class="film-detail-location" id="filmDetailLocation"></div>
-        </div>
       </div>
       <div class="film-frame">
         <div class="film-collage" id="filmCollage" aria-label="Myriads films collection">
@@ -1305,45 +1299,36 @@ footer a:hover { color: var(--green); }
 
 
 
+
 <script>
 (() => {
   const collage = document.getElementById('filmCollage');
   const count = document.getElementById('filmCount');
-  const detailCategory = document.getElementById('filmDetailCategory');
-  const detailTitle = document.getElementById('filmDetailTitle');
-  const detailDescription = document.getElementById('filmDetailDescription');
-  const detailLocation = document.getElementById('filmDetailLocation');
   let films = [];
   let selected = 0;
   let previousFocus = null;
+  let previousScrollY = 0;
 
   const safePath = value => String(value || '').split('/').map(part => encodeURIComponent(part)).join('/');
-  const text = (el, value) => { if (el) el.textContent = value || ''; };
+  const setText = (id, value) => { const el=document.getElementById(id); if(el) el.textContent=value || ''; };
 
-  function updateHomeDetails(film, index) {
-    text(detailCategory, (film.category || 'MYRIADS FILMS').toUpperCase() + ' · FILM ' + String(index + 1).padStart(2, '0'));
-    text(detailTitle, film.title || 'Untitled film');
-    text(detailDescription, film.description || 'A moment from the natural world, captured through the lens.');
-    text(detailLocation, film.location ? '⌖  ' + film.location : '');
-  }
-
-  function ensureViewer() {
+  function buildViewer() {
     if (document.getElementById('filmViewer')) return;
-    const viewer = document.createElement('div');
-    viewer.className = 'film-viewer';
-    viewer.id = 'filmViewer';
+    const viewer=document.createElement('div');
+    viewer.className='film-viewer';
+    viewer.id='filmViewer';
     viewer.setAttribute('role','dialog');
     viewer.setAttribute('aria-modal','true');
-    viewer.setAttribute('aria-label','Myriads film collection');
+    viewer.setAttribute('aria-label','Myriads film viewer');
     viewer.setAttribute('aria-hidden','true');
-    viewer.innerHTML = `
+    viewer.innerHTML=`
       <div class="film-viewer-shell">
         <button class="film-viewer-close" type="button" aria-label="Close films">×</button>
         <button class="film-viewer-prev" type="button" aria-label="Previous film">‹</button>
         <div class="film-viewer-media"><video id="filmViewerVideo" controls playsinline preload="metadata"></video></div>
         <section class="film-viewer-info" aria-live="polite">
           <div class="film-viewer-kicker" id="filmViewerKicker">MYRIADS FILMS</div>
-          <h2 id="filmViewerTitle">Film title</h2>
+          <h2 id="filmViewerTitle"></h2>
           <p class="film-viewer-description" id="filmViewerDescription"></p>
           <div class="film-viewer-location" id="filmViewerLocation"></div>
           <div class="film-viewer-picker">
@@ -1356,122 +1341,108 @@ footer a:hover { color: var(--green); }
       </div>`;
     document.body.appendChild(viewer);
     viewer.querySelector('.film-viewer-close').addEventListener('click', closeViewer);
-    viewer.querySelector('.film-viewer-prev').addEventListener('click', () => showFilm(selected - 1, true));
-    viewer.querySelector('.film-viewer-next').addEventListener('click', () => showFilm(selected + 1, true));
-    viewer.addEventListener('click', e => { if (e.target === viewer) closeViewer(); });
-    document.addEventListener('keydown', e => {
-      if (!viewer.classList.contains('open')) return;
-      if (e.key === 'Escape') closeViewer();
-      if (e.key === 'ArrowLeft') showFilm(selected - 1, true);
-      if (e.key === 'ArrowRight') showFilm(selected + 1, true);
+    viewer.querySelector('.film-viewer-prev').addEventListener('click',()=>showFilm(selected-1,true));
+    viewer.querySelector('.film-viewer-next').addEventListener('click',()=>showFilm(selected+1,true));
+    viewer.addEventListener('click',e=>{if(e.target===viewer)closeViewer();});
+    document.addEventListener('keydown',e=>{
+      if(!viewer.classList.contains('open'))return;
+      if(e.key==='Escape'){e.preventDefault();closeViewer();}
+      if(e.key==='ArrowLeft')showFilm(selected-1,true);
+      if(e.key==='ArrowRight')showFilm(selected+1,true);
     });
   }
 
-  function showFilm(index, autoplay = false) {
-    if (!films.length) return;
-    selected = (index + films.length) % films.length;
-    const film = films[selected];
-    const viewer = document.getElementById('filmViewer');
-    const video = document.getElementById('filmViewerVideo');
-    const source = safePath(film.video);
+  function showFilm(index, autoplay=false) {
+    if(!films.length)return;
+    selected=(index+films.length)%films.length;
+    const film=films[selected];
+    const video=document.getElementById('filmViewerVideo');
     video.pause();
     video.removeAttribute('src');
-    video.innerHTML = '';
-    video.src = source;
-    video.poster = safePath(film.cover);
     video.load();
-
-    text(document.getElementById('filmViewerKicker'), (film.category || 'MYRIADS FILMS').toUpperCase() + ' · FILM ' + String(selected + 1).padStart(2,'0'));
-    text(document.getElementById('filmViewerTitle'), film.title || 'Untitled film');
-    text(document.getElementById('filmViewerDescription'), film.description || 'A moment from the natural world, captured through the lens.');
-    text(document.getElementById('filmViewerLocation'), film.location ? '⌖  ' + film.location : '');
-    text(document.getElementById('filmViewerCounter'), (selected + 1) + ' / ' + films.length);
-
-    const choices = document.getElementById('filmViewerChoices');
-    choices.innerHTML = '';
-    films.forEach((item, i) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'film-choice' + (i === selected ? ' active' : '');
-      const image = document.createElement('img');
-      image.src = safePath(item.cover);
-      image.alt = '';
-      const label = document.createElement('span');
-      label.textContent = item.title || 'Untitled film';
-      button.append(image, label);
-      button.addEventListener('click', () => showFilm(i, true));
+    video.src=safePath(film.video);
+    video.poster=safePath(film.cover);
+    video.load();
+    setText('filmViewerKicker',(film.category||'MYRIADS FILMS').toUpperCase()+' · FILM '+String(selected+1).padStart(2,'0'));
+    setText('filmViewerTitle',film.title||'Untitled film');
+    setText('filmViewerDescription',film.description||'A moment from the natural world, captured through the lens.');
+    setText('filmViewerLocation',film.location?'⌖  '+film.location:'');
+    setText('filmViewerCounter',(selected+1)+' / '+films.length);
+    const choices=document.getElementById('filmViewerChoices');
+    choices.innerHTML='';
+    films.forEach((item,i)=>{
+      const button=document.createElement('button');
+      button.type='button';
+      button.className='film-choice'+(i===selected?' active':'');
+      const img=document.createElement('img');
+      img.src=safePath(item.cover); img.alt='';
+      const label=document.createElement('span'); label.textContent=item.title||'Untitled film';
+      button.append(img,label);
+      button.addEventListener('click',()=>showFilm(i,true));
       choices.appendChild(button);
     });
-    if (autoplay) video.play().catch(() => {});
+    if(autoplay) video.play().catch(()=>{});
   }
 
-  function openViewer(index) {
-    ensureViewer();
-    previousFocus = document.activeElement;
-    showFilm(index, true);
-    const viewer = document.getElementById('filmViewer');
+  function openViewer(index,event) {
+    if(event){event.preventDefault();event.stopPropagation();}
+    buildViewer();
+    previousFocus=document.activeElement;
+    previousScrollY=window.scrollY;
+    showFilm(index,true);
+    const viewer=document.getElementById('filmViewer');
     viewer.classList.add('open');
     viewer.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    viewer.querySelector('.film-viewer-close').focus();
+    document.documentElement.style.overflow='hidden';
+    document.body.style.overflow='hidden';
+    viewer.querySelector('.film-viewer-close').focus({preventScroll:true});
   }
 
   function closeViewer() {
-    const viewer = document.getElementById('filmViewer');
-    if (!viewer) return;
-    const video = document.getElementById('filmViewerVideo');
-    video.pause();
-    video.removeAttribute('src');
-    video.load();
+    const viewer=document.getElementById('filmViewer');
+    if(!viewer)return;
+    const video=document.getElementById('filmViewerVideo');
+    video.pause(); video.removeAttribute('src'); video.load();
     viewer.classList.remove('open');
     viewer.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-    if (previousFocus && previousFocus.focus) previousFocus.focus();
+    document.documentElement.style.overflow='';
+    document.body.style.overflow='';
+    window.scrollTo({top:previousScrollY,behavior:'instant'});
+    if(previousFocus&&previousFocus.focus)previousFocus.focus({preventScroll:true});
   }
 
   function renderCollage() {
-    collage.innerHTML = '';
-    if (!films.length) {
-      collage.innerHTML = '<div class="film-empty">Your films will appear here when added to videos.json.</div>';
-      text(count, 'MYRIADS FILMS');
+    collage.innerHTML='';
+    if(!films.length){
+      collage.innerHTML='<div class="film-empty">Your films will appear here when added to videos.json.</div>';
+      if(count)count.textContent='MYRIADS FILMS';
       return;
     }
-    text(count, String(films.length).padStart(2,'0') + ' FILMS · MYRIADS BY STEINSE');
-    films.forEach((film, index) => {
-      const tile = document.createElement('button');
-      tile.type = 'button';
-      tile.className = 'film-thumb';
-      tile.setAttribute('aria-label','Open film: ' + (film.title || 'Myriads film'));
-      const video = document.createElement('video');
-      video.src = safePath(film.video);
-      video.poster = safePath(film.cover);
-      video.muted = true;
-      video.defaultMuted = true;
-      video.loop = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.preload = index < 4 ? 'auto' : 'metadata';
-      video.setAttribute('muted','');
-      video.setAttribute('playsinline','');
-      video.addEventListener('canplay', () => video.play().catch(() => {}), {once:true});
-      const play = document.createElement('span');
-      play.className = 'film-thumb-play';
-      play.textContent = '▶';
-      const caption = document.createElement('span');
-      caption.className = 'film-thumb-caption';
-      caption.textContent = film.title || 'Untitled film';
-      tile.append(video, play, caption);
-      tile.addEventListener('click', () => openViewer(index));
+    if(count)count.textContent=String(films.length).padStart(2,'0')+' FILMS · MYRIADS BY STEINSE';
+    films.forEach((film,index)=>{
+      const tile=document.createElement('button');
+      tile.type='button';
+      tile.className='film-thumb';
+      tile.setAttribute('aria-label','Open film: '+(film.title||'Myriads film'));
+      const video=document.createElement('video');
+      video.src=safePath(film.video);
+      video.poster=safePath(film.cover);
+      video.muted=true; video.defaultMuted=true; video.loop=true; video.autoplay=true; video.playsInline=true;
+      video.setAttribute('muted',''); video.setAttribute('playsinline','');
+      video.preload=index<4?'auto':'metadata';
+      const play=document.createElement('span'); play.className='film-thumb-play'; play.textContent='▶';
+      const caption=document.createElement('span'); caption.className='film-thumb-caption'; caption.textContent=film.title||'Untitled film';
+      tile.append(video,play,caption);
+      tile.addEventListener('click',event=>openViewer(index,event));
       collage.appendChild(tile);
-      video.play().catch(() => {});
+      video.play().catch(()=>{});
     });
-    updateHomeDetails(films[0],0);
   }
 
-  fetch('videos.json', {cache:'no-cache'})
-    .then(response => { if (!response.ok) throw new Error('Could not load videos.json'); return response.json(); })
-    .then(data => { films = Array.isArray(data) ? data : (Array.isArray(data.videos) ? data.videos : []); renderCollage(); })
-    .catch(() => { collage.innerHTML = '<div class="film-empty">Unable to load films. Check videos.json and its file paths.</div>'; });
+  fetch('videos.json?'+Date.now(),{cache:'no-store'})
+    .then(r=>{if(!r.ok)throw new Error('videos.json unavailable');return r.json();})
+    .then(data=>{films=Array.isArray(data)?data:(Array.isArray(data.videos)?data.videos:[]);renderCollage();})
+    .catch(()=>{collage.innerHTML='<div class="film-empty">Unable to load films. Check videos.json and its paths.</div>';});
 })();
 </script>
 
