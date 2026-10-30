@@ -688,9 +688,10 @@ footer a:hover { color: var(--green); }
     gap: 14px;
   }
 
-  .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
-  .tile-wide, .tile-2x1 { grid-column: span 2; grid-row: span 1; }
-  .tile-tall, .tile-1x2 { grid-column: span 1; grid-row: span 2; }
+  .tile-large, .tile-2x2, .tile-wide, .tile-2x1, .tile-tall, .tile-1x2, .tile-square, .tile-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
 
   .about {
     padding: 75px 6%;
@@ -740,9 +741,10 @@ footer a:hover { color: var(--green); }
     gap: 10px;
   }
 
-  .tile-large, .tile-2x2 { grid-column: span 2; grid-row: span 2; }
-  .tile-wide, .tile-2x1 { grid-column: span 2; grid-row: span 1; }
-  .tile-tall, .tile-1x2 { grid-column: span 1; grid-row: span 2; }
+  .tile-large, .tile-2x2, .tile-wide, .tile-2x1, .tile-tall, .tile-1x2, .tile-square, .tile-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
 
   
 
@@ -1097,8 +1099,8 @@ footer a:hover { color: var(--green); }
   }
 
   function applyRandomTileSizes(tiles) {
-    const patterns = ["tile-2x2", "tile-2x1", "tile-1x2", "tile-1x1", "tile-1x1", "tile-1x1"];
-    const sizes = shuffle(patterns);
+    const patterns = ["tile-2x2", "tile-2x2", "tile-2x1", "tile-2x1", "tile-1x1", "tile-1x1", "tile-1x1", "tile-1x1"];
+    const sizes = patterns;
     tiles.forEach((tile, index) => {
       tile.classList.remove("tile-large", "tile-wide", "tile-tall", "tile-square", "tile-2x2", "tile-2x1", "tile-1x2", "tile-1x1");
       tile.classList.add(sizes[index % sizes.length]);
@@ -1121,9 +1123,9 @@ footer a:hover { color: var(--green); }
       if (!list.length) throw new Error("Photo lists are empty");
 
       // Keep the collage curated: show only 6–8 random photos, never the entire collection.
-      const minCount = Math.min(6, list.length);
-      const maxCount = Math.min(list.length, 8);
-      const count = minCount + Math.floor(Math.random() * (maxCount - minCount + 1));
+      const isTablet = window.matchMedia("(min-width: 601px) and (max-width: 900px)").matches;
+      const targetCount = isTablet ? 9 : 8;
+      const count = Math.min(targetCount, list.length);
       const selected = shuffle(list).slice(0, count);
       let tiles = [...collage.querySelectorAll(":scope > .tile")];
 
