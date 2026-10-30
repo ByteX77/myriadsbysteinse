@@ -404,6 +404,56 @@ section { width: 100%; }
   margin-top: 10px;
 }
 
+
+/* HOMEPAGE VIDEO THUMBNAILS — image-only preview cards */
+.video-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.video-thumbnail {
+  position: relative;
+  display: block;
+  min-width: 0;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  background: #080d08;
+  border: 1px solid rgba(180,210,123,.16);
+}
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s ease, filter .35s ease;
+}
+.video-thumbnail:hover img {
+  transform: scale(1.045);
+  filter: brightness(.78);
+}
+.video-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  padding-left: 3px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 50%;
+  background: rgba(8,14,8,.55);
+  color: #fff;
+  font-size: 15px;
+  backdrop-filter: blur(8px);
+}
+@media (max-width: 700px) {
+  .video-thumbnails { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+}
+@media (max-width: 420px) {
+  .video-thumbnails { grid-template-columns: 1fr; }
+}
+
 /* ABOUT STEINSE */
 
 .about {
@@ -768,6 +818,22 @@ footer a:hover { color: var(--green); }
       <a class="button" href="gallery.html">EXPLORE THE FULL GALLERY </a>
     </div>
   </section>
+
+  <section class="stories videos-feature" id="videos">
+    <div class="stories-heading">
+      <div>
+        <div class="eyebrow">MYRIADS FILMS · THE WILD IN MOTION</div>
+        <h2>Stories in <span class="accent">motion.</span></h2>
+      </div>
+      <a class="text-link" href="videos.html">EXPLORE ALL FILMS</a>
+    </div>
+    <div class="video-thumbnails" id="homeVideoHighlights" aria-label="Featured films">
+      <a class="video-thumbnail" href="videos.html" aria-label="Watch A Quiet Moment in the Green">
+        <img src="videos/myriads-film-01-poster.jpg" alt="A bird among green foliage" loading="lazy">
+        <span class="video-play" aria-hidden="true">▶</span>
+      </a>
+    </div>
+  </section>
 <section class="stories" id="stories">
     <div class="stories-heading">
       <div>
@@ -819,28 +885,7 @@ footer a:hover { color: var(--green); }
     </div>
   </section>
 
-  <section class="stories videos-feature" id="videos">
-    <div class="stories-heading">
-      <div>
-        <div class="eyebrow">MYRIADS FILMS · THE WILD IN MOTION</div>
-        <h2>Stories in <span class="accent">motion.</span></h2>
-        <p class="section-description">
-          Some moments are best experienced as they unfold. Explore moving glimpses
-          of wildlife and the natural world, captured through the lens.
-        </p>
-      </div>
-      <a class="text-link" href="videos.html">EXPLORE ALL FILMS</a>
-    </div>
-    <div class="story-grid" id="homeVideoHighlights" aria-label="Featured films">
-      <a class="story-card video-highlight" href="videos.html">
-        <div class="story-image"><img src="videos/myriads-film-01-poster.jpg" alt="Featured wildlife film" loading="lazy"></div>
-        <div class="story-label">MYRIADS FILMS</div>
-        <h3>Discover stories in motion.</h3>
-        <p>Watch moments from the natural world, captured through the lens.</p>
-        <span class="text-link">WATCH THE FILMS</span>
-      </a>
-    </div>
-  </section>
+
 
   <!-- ABOUT ME -->
   <section class="about" id="about">
