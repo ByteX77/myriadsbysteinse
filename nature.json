@@ -1,12 +1,5 @@
 [
   {
-    "image": "images/BC.JPG",
-    "title": "BC",
-    "label": "BC",
-    "description": "",
-    "location": ""
-  },
-  {
     "image": "images/BD.JPG",
     "title": "BD",
     "label": "BD",
@@ -42,13 +35,6 @@
     "location": ""
   },
   {
-    "image": "images/BJ.JPG",
-    "title": "BJ",
-    "label": "BJ",
-    "description": "",
-    "location": ""
-  },
-  {
     "image": "images/BL.JPG",
     "title": "BL",
     "label": "BL",
@@ -66,13 +52,6 @@
     "image": "images/BN.JPG",
     "title": "BN",
     "label": "BN",
-    "description": "",
-    "location": ""
-  },
-  {
-    "image": "images/BO.JPG",
-    "title": "BO",
-    "label": "BO",
     "description": "",
     "location": ""
   },
