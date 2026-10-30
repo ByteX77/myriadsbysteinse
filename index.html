@@ -409,23 +409,36 @@ section { width: 100%; }
 }
 
 
-/* HOMEPAGE VIDEO THUMBNAILS — image-only preview cards */
+/* HOMEPAGE VIDEO THUMBNAILS — portrait carousel with periodic movement */
 .video-thumbnails {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  position: relative;
+  width: 100%;
+  height: clamp(330px, 43vw, 540px);
+  max-height: 560px;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  overflow: hidden;
+  isolation: isolate;
 }
 .video-thumbnail {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
-  min-width: 0;
-  aspect-ratio: 5 / 4;
+  width: clamp(175px, 23vw, 290px);
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: #050705;
-  border: 1px solid rgba(0,0,0,.72);
-  border-radius: 3px;
-  box-shadow: 0 5px 18px rgba(0,0,0,.28), inset 0 0 0 1px rgba(0,0,0,.35);
-  isolation: isolate;
+  border: 1px solid rgba(180,210,123,.25);
+  border-radius: 4px;
+  box-shadow: 0 18px 42px rgba(0,0,0,.48), 0 0 0 1px rgba(0,0,0,.35);
+  transform-style: preserve-3d;
+  transition:
+    transform 1.05s cubic-bezier(.2,.75,.2,1),
+    opacity 1.05s ease,
+    filter 1.05s ease,
+    box-shadow 1.05s ease;
+  will-change: transform, opacity;
 }
 .video-thumbnail video,
 .video-thumbnail img {
@@ -433,15 +446,17 @@ section { width: 100%; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .55s ease, filter .35s ease;
 }
-.video-thumbnail:hover video,
-.video-thumbnail:hover img {
-  transform: scale(1.045);
-  filter: brightness(.78);
-}
-.video-play {
+.video-thumbnail::after {
+  content: "";
   position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,.04), transparent 45%, rgba(0,0,0,.22));
+}
+.video-thumbnail .video-play {
+  position: absolute;
+  z-index: 2;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -450,20 +465,64 @@ section { width: 100%; }
   display: grid;
   place-items: center;
   padding-left: 3px;
-  border: 1px solid rgba(255,255,255,.75);
+  border: 1px solid rgba(255,255,255,.78);
   border-radius: 50%;
-  background: rgba(8,14,8,.55);
+  background: rgba(8,14,8,.52);
   color: #fff;
   font-size: 15px;
   backdrop-filter: blur(8px);
 }
+.video-thumbnail.is-center {
+  z-index: 5;
+  opacity: 1;
+  filter: none;
+  transform: translate(-50%, -50%) translateZ(100px) scale(1);
+  box-shadow: 0 25px 60px rgba(0,0,0,.58), 0 0 0 1px rgba(180,210,123,.22);
+}
+.video-thumbnail.is-left {
+  z-index: 4;
+  opacity: .78;
+  filter: brightness(.72);
+  transform: translate(-50%, -50%) translateX(-78%) rotateY(24deg) scale(.82);
+}
+.video-thumbnail.is-right {
+  z-index: 4;
+  opacity: .78;
+  filter: brightness(.72);
+  transform: translate(-50%, -50%) translateX(78%) rotateY(-24deg) scale(.82);
+}
+.video-thumbnail.is-far-left {
+  z-index: 2;
+  opacity: .36;
+  filter: brightness(.48);
+  transform: translate(-50%, -50%) translateX(-145%) rotateY(31deg) scale(.66);
+}
+.video-thumbnail.is-far-right {
+  z-index: 2;
+  opacity: .36;
+  filter: brightness(.48);
+  transform: translate(-50%, -50%) translateX(145%) rotateY(-31deg) scale(.66);
+}
+.video-thumbnail.is-hidden {
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) translateZ(-220px) scale(.45);
+}
+.video-thumbnail:hover.is-center {
+  box-shadow: 0 30px 70px rgba(0,0,0,.65), 0 0 0 1px rgba(180,210,123,.4);
+}
 @media (max-width: 700px) {
-  .video-thumbnails { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .video-thumbnails { height: 390px; }
+  .video-thumbnail { width: clamp(155px, 43vw, 220px); }
+  .video-thumbnail.is-left { transform: translate(-50%, -50%) translateX(-67%) rotateY(20deg) scale(.76); }
+  .video-thumbnail.is-right { transform: translate(-50%, -50%) translateX(67%) rotateY(-20deg) scale(.76); }
+  .video-thumbnail.is-far-left { transform: translate(-50%, -50%) translateX(-125%) rotateY(28deg) scale(.60); }
+  .video-thumbnail.is-far-right { transform: translate(-50%, -50%) translateX(125%) rotateY(-28deg) scale(.60); }
 }
-@media (max-width: 420px) {
-  .video-thumbnails { grid-template-columns: 1fr; }
+@media (prefers-reduced-motion: reduce) {
+  .video-thumbnail { transition: none; }
 }
-
 /* ABOUT STEINSE */
 
 .about {
@@ -1245,6 +1304,45 @@ footer a:hover { color: var(--green); }
   const host = document.getElementById("homeVideoHighlights");
   if (!host) return;
 
+  let cards = [];
+  let activeIndex = 0;
+  let rotationTimer = null;
+
+  function applyCarouselPositions() {
+    const total = cards.length;
+    if (!total) return;
+
+    cards.forEach((card, index) => {
+      card.classList.remove(
+        "is-center", "is-left", "is-right",
+        "is-far-left", "is-far-right", "is-hidden"
+      );
+
+      let offset = (index - activeIndex + total) % total;
+      if (offset > Math.floor(total / 2)) offset -= total;
+
+      if (offset === 0) card.classList.add("is-center");
+      else if (offset === -1) card.classList.add("is-left");
+      else if (offset === 1) card.classList.add("is-right");
+      else if (offset === -2) card.classList.add("is-far-left");
+      else if (offset === 2) card.classList.add("is-far-right");
+      else card.classList.add("is-hidden");
+
+      card.setAttribute("aria-hidden", offset === 0 ? "false" : "true");
+      card.tabIndex = offset === 0 ? 0 : -1;
+    });
+  }
+
+  function startRotation() {
+    if (rotationTimer) window.clearInterval(rotationTimer);
+    if (cards.length > 1) {
+      rotationTimer = window.setInterval(() => {
+        activeIndex = (activeIndex + 1) % cards.length;
+        applyCarouselPositions();
+      }, 4200);
+    }
+  }
+
   fetch("videos.json", { cache: "no-cache" })
     .then(response => {
       if (!response.ok) throw new Error("videos.json unavailable");
@@ -1253,12 +1351,12 @@ footer a:hover { color: var(--green); }
     .then(data => {
       const films = (Array.isArray(data) ? data : (data.videos || []))
         .filter(film => film && (film.cover || film.poster))
-        .slice(0, 3);
+        .slice(0, 9);
 
       if (!films.length) return;
       host.replaceChildren();
 
-      films.forEach((film) => {
+      films.forEach(film => {
         const card = document.createElement("a");
         card.className = "video-thumbnail";
         card.href = "videos.html";
@@ -1277,28 +1375,43 @@ footer a:hover { color: var(--green); }
         video.preload = "metadata";
         video.poster = film.cover || film.poster || "";
         video.setAttribute("aria-hidden", "true");
-
-        // Prefer a lightweight preview file; fall back to the main video if no preview is specified.
         video.src = film.preview || film.previewVideo || film.video || "";
+
         video.addEventListener("error", () => {
-          // Keep the thumbnail attractive if a preview asset has not been uploaded yet.
           const image = document.createElement("img");
           image.src = film.cover || film.poster || "";
-          image.alt = film.title || "Myriads wildlife film";
+          image.alt = "";
           image.loading = "lazy";
           image.decoding = "async";
           video.replaceWith(image);
         }, { once: true });
 
-        card.append(video);
+        const play = document.createElement("span");
+        play.className = "video-play";
+        play.setAttribute("aria-hidden", "true");
+        play.textContent = "▶";
+        card.append(video, play);
         host.appendChild(card);
+
         const playAttempt = video.play();
         if (playAttempt && typeof playAttempt.catch === "function") {
-          playAttempt.catch(() => {
-            // Muted autoplay may be restricted by some browser settings.
-          });
+          playAttempt.catch(() => {});
         }
       });
+
+      cards = [...host.querySelectorAll(".video-thumbnail")];
+      applyCarouselPositions();
+      startRotation();
+
+      // Pause the automatic movement while someone is interacting with the carousel.
+      host.addEventListener("mouseenter", () => {
+        if (rotationTimer) window.clearInterval(rotationTimer);
+      });
+      host.addEventListener("mouseleave", startRotation);
+      host.addEventListener("focusin", () => {
+        if (rotationTimer) window.clearInterval(rotationTimer);
+      });
+      host.addEventListener("focusout", startRotation);
     })
     .catch(error => console.warn("Video thumbnails unavailable:", error));
 })();
