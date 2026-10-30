@@ -1,130 +1,86 @@
 [
   {
-    "image": "images/AA.JPG",
-    "title": "AA",
-    "label": "AA",
+    "image": "images/BD.JPG",
+    "title": "BD",
+    "label": "BD",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AB.JPG",
-    "title": "AB",
-    "label": "AB",
+    "image": "images/BE.jpg",
+    "title": "BE",
+    "label": "BE",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AD.JPG",
-    "title": "AD",
-    "label": "AD",
+    "image": "images/BG.JPG",
+    "title": "BG",
+    "label": "BG",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AE.JPG",
-    "title": "AE",
-    "label": "AE",
+    "image": "images/BH.JPG",
+    "title": "BH",
+    "label": "BH",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AF.JPG",
-    "title": "AF",
-    "label": "AF",
+    "image": "images/BI.JPG",
+    "title": "BI",
+    "label": "BI",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AG.JPG",
-    "title": "AG",
-    "label": "AG",
+    "image": "images/BL.JPG",
+    "title": "BL",
+    "label": "BL",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AH.JPG",
-    "title": "AH",
-    "label": "AH",
+    "image": "images/BM.JPG",
+    "title": "BM",
+    "label": "BM",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AI.JPG",
-    "title": "AI",
-    "label": "AI",
+    "image": "images/BN.JPG",
+    "title": "BN",
+    "label": "BN",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AO.JPG",
-    "title": "AO",
-    "label": "AO",
+    "image": "images/BP.JPG",
+    "title": "BP",
+    "label": "BP",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AP.JPG",
-    "title": "AP",
-    "label": "AP",
+    "image": "images/BQ.jpg",
+    "title": "BQ",
+    "label": "BQ",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AQ.JPG",
-    "title": "AQ",
-    "label": "AQ",
+    "image": "images/BR.JPG",
+    "title": "BR",
+    "label": "BR",
     "description": "",
-    "species": "",
     "location": ""
   },
   {
-    "image": "images/AU.JPG",
-    "title": "AU",
-    "label": "AU",
+    "image": "images/BS.jpg",
+    "title": "BS",
+    "label": "BS",
     "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/AW.JPG",
-    "title": "AW",
-    "label": "AW",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/AY.JPG",
-    "title": "AY",
-    "label": "AY",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/AZ.JPG",
-    "title": "AZ",
-    "label": "AZ",
-    "description": "",
-    "species": "",
-    "location": ""
-  },
-  {
-    "image": "images/BA.JPG",
-    "title": "BA",
-    "label": "BA",
-    "description": "",
-    "species": "",
     "location": ""
   }
 ]
