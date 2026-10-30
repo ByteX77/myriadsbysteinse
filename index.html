@@ -1239,23 +1239,42 @@ footer a:hover { color: var(--green); }
 (() => {
   const host = document.getElementById("homeVideoHighlights");
   if (!host) return;
+
   fetch("videos.json", { cache: "no-cache" })
-    .then(response => { if (!response.ok) throw new Error("videos.json unavailable"); return response.json(); })
+    .then(response => {
+      if (!response.ok) throw new Error("videos.json unavailable");
+      return response.json();
+    })
     .then(data => {
-      const films = (Array.isArray(data) ? data : (data.videos || [])).filter(f => f && (f.cover || f.poster || f.video)).slice(0, 3);
+      const films = (Array.isArray(data) ? data : (data.videos || []))
+        .filter(film => film && (film.cover || film.poster))
+        .slice(0, 3);
+
       if (!films.length) return;
       host.replaceChildren();
-      films.forEach((film, i) => {
-        const card = document.createElement("a"); card.className = "story-card video-highlight"; card.href = "videos.html";
-        const frame = document.createElement("div"); frame.className = "story-image";
-        const img = document.createElement("img"); img.src = film.cover || film.poster || ""; img.alt = film.title || "Myriads wildlife film"; img.loading = "lazy"; frame.appendChild(img);
-        const label = document.createElement("div"); label.className = "story-label"; label.textContent = (film.category || "MYRIADS FILMS").toUpperCase() + " · FILM " + String(i+1).padStart(2,"0");
-        const title = document.createElement("h3"); title.textContent = film.title || "A moment in motion.";
-        const desc = document.createElement("p"); desc.textContent = film.description || "A moving glimpse into the natural world.";
-        const link = document.createElement("span"); link.className = "text-link"; link.textContent = "WATCH THE FILM";
-        card.append(frame,label,title,desc,link); host.appendChild(card);
+
+      films.forEach((film, index) => {
+        const card = document.createElement("a");
+        card.className = "video-thumbnail";
+        card.href = "videos.html";
+        card.setAttribute("aria-label", "Watch " + (film.title || "Myriads film"));
+
+        const image = document.createElement("img");
+        image.src = film.cover || film.poster;
+        image.alt = film.title || "Myriads wildlife film";
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        const play = document.createElement("span");
+        play.className = "video-play";
+        play.setAttribute("aria-hidden", "true");
+        play.textContent = "▶";
+
+        card.append(image, play);
+        host.appendChild(card);
       });
-    }).catch(error => console.warn("Video highlights unavailable:", error));
+    })
+    .catch(error => console.warn("Video thumbnails unavailable:", error));
 })();
 </script>
 
