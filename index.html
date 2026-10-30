@@ -770,7 +770,8 @@ footer a:hover { color: var(--green); }
 .film-thumb { appearance:none; -webkit-appearance:none; display:block; width:100%; height:100%; text-align:left; position:relative; min-width:0; min-height:0; overflow:hidden; padding:0; border:0; background:#0b130b; cursor:pointer; isolation:isolate; }
 .film-thumb:first-child { grid-row:1 / span 2; }
 .film-thumb:only-child { grid-column:1 / -1; grid-row:1 / -1; }
-.film-thumb video,.film-thumb img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; background:#050705; }
+.film-thumb video,.film-thumb img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; background:#050705; pointer-events:none; }
+.film-thumb video { filter:saturate(.94); }
 .film-thumb::after { content:''; position:absolute; inset:35% 0 0; background:linear-gradient(transparent,rgba(0,0,0,.72)); pointer-events:none; }
 .film-thumb-play { position:absolute; z-index:2; top:14px; left:14px; width:38px; height:38px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.6); border-radius:50%; color:white; background:rgba(5,10,5,.42); backdrop-filter:blur(8px); font-size:14px; pointer-events:none; }
 .film-thumb-caption { position:absolute; z-index:2; left:14px; right:12px; bottom:13px; color:#fff; font:500 16px/1.25 'Playfair Display',Georgia,serif; text-shadow:0 2px 10px #000; pointer-events:none; }
@@ -1308,6 +1309,11 @@ footer a:hover { color: var(--green); }
   let selected = 0;
   let previousFocus = null;
   let previousScrollY = 0;
+  let previewObserver = null;
+  const previewVideos = new Set();
+
+  function pausePreviews() { previewVideos.forEach(video => video.pause()); }
+  function resumePreviews() { previewVideos.forEach(video => { if (video.isConnected) video.play().catch(() => {}); }); }
 
   const safePath = value => String(value || '').split('/').map(part => encodeURIComponent(part)).join('/');
   const setText = (id, value) => { const el=document.getElementById(id); if(el) el.textContent=value || ''; };
@@ -1389,6 +1395,7 @@ footer a:hover { color: var(--green); }
     buildViewer();
     previousFocus=document.activeElement;
     previousScrollY=window.scrollY;
+    pausePreviews();
     showFilm(index,true);
     const viewer=document.getElementById('filmViewer');
     viewer.classList.add('open');
@@ -1409,33 +1416,56 @@ footer a:hover { color: var(--green); }
     document.body.style.overflow='';
     window.scrollTo({top:previousScrollY,behavior:'instant'});
     if(previousFocus&&previousFocus.focus)previousFocus.focus({preventScroll:true});
+    resumePreviews();
   }
 
   function renderCollage() {
     collage.innerHTML='';
+    previewVideos.clear();
     if(!films.length){
       collage.innerHTML='<div class="film-empty">Your films will appear here when added to videos.json.</div>';
       if(count)count.textContent='MYRIADS FILMS';
       return;
     }
     if(count)count.textContent=String(films.length).padStart(2,'0')+' FILMS · MYRIADS BY STEINSE';
+    previewObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const video=entry.target;
+        if(entry.isIntersecting && !document.getElementById('filmViewer')?.classList.contains('open')) {
+          video.play().catch(()=>{});
+        } else {
+          video.pause();
+        }
+      });
+    }, {root:null, rootMargin:'120px', threshold:0.05});
+
     films.forEach((film,index)=>{
       const tile=document.createElement('button');
       tile.type='button';
       tile.className='film-thumb';
       tile.setAttribute('aria-label','Open film: '+(film.title||'Myriads film'));
-      const video=document.createElement('video');
-      video.src=safePath(film.video);
-      video.poster=safePath(film.cover);
-      video.muted=true; video.defaultMuted=true; video.loop=true; video.autoplay=true; video.playsInline=true;
-      video.setAttribute('muted',''); video.setAttribute('playsinline','');
-      video.preload=index<4?'auto':'metadata';
+      const poster=document.createElement('img');
+      poster.src=safePath(film.cover); poster.alt=''; poster.loading='lazy';
+      tile.appendChild(poster);
+
+      // Never decode the full-resolution master in the homepage collage.
+      // Use a small preview file when supplied; otherwise retain a lightweight poster.
+      if(film.preview) {
+        const preview=document.createElement('video');
+        preview.muted=true; preview.defaultMuted=true; preview.loop=true;
+        preview.autoplay=false; preview.playsInline=true;
+        preview.setAttribute('muted',''); preview.setAttribute('playsinline','');
+        preview.preload='none'; preview.poster=safePath(film.cover);
+        preview.src=safePath(film.preview);
+        tile.appendChild(preview);
+        previewVideos.add(preview);
+        previewObserver.observe(preview);
+      }
       const play=document.createElement('span'); play.className='film-thumb-play'; play.textContent='▶';
       const caption=document.createElement('span'); caption.className='film-thumb-caption'; caption.textContent=film.title||'Untitled film';
-      tile.append(video,play,caption);
+      tile.append(play,caption);
       tile.addEventListener('click',event=>openViewer(index,event));
       collage.appendChild(tile);
-      video.play().catch(()=>{});
     });
   }
 
