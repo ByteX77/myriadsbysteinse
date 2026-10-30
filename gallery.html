@@ -685,9 +685,9 @@ footer {
   <p class="intro">A collection of moments from the natural world. Every feather, every movement, every fleeting encounter tells a story.</p>
 
   <div class="filters" role="group" aria-label="Filter photographs">
-    <button class="filter active" data-filter="all" aria-pressed="true">All Photos</button>
-    <button class="filter" data-filter="wildlife" aria-pressed="false">Wildlife</button>
+    <button class="filter active" data-filter="wildlife" aria-pressed="true">Wildlife</button>
     <button class="filter" data-filter="nature" aria-pressed="false">Nature</button>
+    <button class="filter" data-filter="all" aria-pressed="false">All Photos</button>
   </div>
 
   <p class="status" id="status" aria-live="polite">Loading photographs…</p>
@@ -972,17 +972,25 @@ footer {
         throw new Error("JSON files must contain arrays");
       }
 
-      allItems = [
-        ...wildlife
-          .filter(item => item && (item.image || item.file))
-          .map(item => ({ ...item, file: item.file || item.image, category: "wildlife" })),
+      const wildlifeItems = wildlife
+        .filter(item => item && (item.image || item.file))
+        .map(item => ({ ...item, file: item.file || item.image, category: "wildlife" }));
 
-        ...nature
-          .filter(item => item && (item.image || item.file))
-          .map(item => ({ ...item, file: item.file || item.image, category: "nature" }))
-      ];
+      const natureItems = nature
+        .filter(item => item && (item.image || item.file))
+        .map(item => ({ ...item, file: item.file || item.image, category: "nature" }));
 
-      setFilter("all");
+      // Interleave wildlife and nature so All Photos feels like one mixed collection.
+      // Each category's own order remains unchanged when its filter is selected.
+      allItems = [];
+      const longestList = Math.max(wildlifeItems.length, natureItems.length);
+      for (let i = 0; i < longestList; i++) {
+        if (wildlifeItems[i]) allItems.push(wildlifeItems[i]);
+        if (natureItems[i]) allItems.push(natureItems[i]);
+      }
+
+      // Open the gallery on Wildlife; All Photos is available as the last filter.
+      setFilter("wildlife");
     })
     .catch(error => {
       console.error(error);
