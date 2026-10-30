@@ -526,6 +526,32 @@ footer a:hover { color: var(--green); }
 
 .lightbox.open { display: flex; }
 
+.home-viewer {
+  width: min(1400px, 100%); height: min(790px, 86vh);
+  display: grid; grid-template-columns: minmax(0,1.55fr) minmax(280px,.8fr);
+  overflow: hidden; background: rgba(16,27,16,.42);
+  box-shadow: 0 25px 90px rgba(0,0,0,.42);
+  backdrop-filter: blur(28px) saturate(155%);
+  -webkit-backdrop-filter: blur(28px) saturate(155%);
+}
+.home-viewer-media {
+  min-width: 0; min-height: 0; display: flex; align-items: center;
+  justify-content: center; padding: 18px; background: #080d08; overflow: hidden;
+}
+.home-viewer-info {
+  min-width: 0; overflow-y: auto; padding: clamp(24px,4vw,54px);
+  display: flex; flex-direction: column; justify-content: center;
+  background: linear-gradient(145deg,rgba(167,211,143,.16),rgba(63,105,65,.10) 48%,rgba(225,242,207,.07));
+  backdrop-filter: blur(30px) saturate(165%);
+  -webkit-backdrop-filter: blur(30px) saturate(165%);
+}
+.home-info-category { color: var(--green); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; }
+.home-info-title { font: 500 clamp(27px,3vw,43px)/1.18 "Playfair Display",Georgia,serif; margin-bottom: 20px; overflow-wrap: anywhere; }
+.home-info-description { color: #d5ddd0; font-size: 14px; line-height: 1.9; overflow-wrap: anywhere; }
+.home-info-location { margin-top: 24px; padding-top: 12px; border-top: 1px solid rgba(220,235,205,.16); color: #f0f2e9; font-size: 12px; line-height: 1.6; }
+.home-info-location span { display: block; margin-bottom: 6px; color: #aebc9e; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+.home-info-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 30px; color: #b9c5b0; font-size: 11px; }
+
 .lightbox-image {
   max-width: 100%;
   max-height: 82vh;
@@ -574,6 +600,17 @@ footer a:hover { color: var(--green); }
   color: #e8eae3;
   font-size: 13px;
 }
+
+@media (max-width:700px) {
+  .lightbox { padding: 58px 10px 12px; }
+  .home-viewer { height: calc(100vh - 82px); max-height: 900px; grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) auto; overflow-y: auto; }
+  .home-viewer-media { min-height: 0; padding: 10px; }
+  .home-viewer-info { padding: 20px 22px; min-height: 205px; }
+  .home-info-title { font-size: 28px; margin-bottom: 12px; }
+  .home-info-description { font-size: 13px; line-height: 1.7; }
+  .home-info-footer { padding-top: 18px; }
+}
+.lightbox-caption { display: none; }
 
 /* RESPONSIVE */
 
@@ -859,16 +896,33 @@ footer a:hover { color: var(--green); }
      aria-hidden="true">
   <button class="lightbox-button lightbox-close" id="lbClose" aria-label="Close viewer">×</button>
   <button class="lightbox-button lightbox-prev" id="lbPrev" aria-label="Previous photo">‹</button>
-  <img class="lightbox-image" id="lbImage" src="" alt="">
+  <div class="home-viewer">
+    <div class="home-viewer-media">
+      <img class="lightbox-image" id="lbImage" src="" alt="">
+    </div>
+    <section class="home-viewer-info" aria-live="polite">
+      <div class="home-info-category" id="lbCategory">Photography</div>
+      <h2 class="home-info-title" id="lbTitle">Photograph</h2>
+      <p class="home-info-description" id="lbDescription"></p>
+      <div class="home-info-location" id="lbLocation"></div>
+      <div class="home-info-footer">
+        <span>MYRIADS BY STEINSE</span>
+        <span id="lbCounter">1 / 1</span>
+      </div>
+    </section>
+  </div>
   <button class="lightbox-button lightbox-next" id="lbNext" aria-label="Next photo">›</button>
-  <div class="lightbox-caption" id="lbCaption"></div>
 </div>
 
 <script>
 (() => {
   const lightbox = document.getElementById("lightbox");
   const largeImage = document.getElementById("lbImage");
-  const caption = document.getElementById("lbCaption");
+  const categoryText = document.getElementById("lbCategory");
+  const titleText = document.getElementById("lbTitle");
+  const descriptionText = document.getElementById("lbDescription");
+  const locationText = document.getElementById("lbLocation");
+  const counterText = document.getElementById("lbCounter");
   let photos = [];
   let current = 0;
   let previousFocus = null;
@@ -879,12 +933,38 @@ footer a:hover { color: var(--green); }
     current = (index + photos.length) % photos.length;
     const photo = photos[current];
 
-    largeImage.src = photo.currentSrc || photo.src;
-    largeImage.alt = photo.alt;
+    largeImage.classList.add("changing");
+    window.setTimeout(() => {
+      largeImage.src = photo.currentSrc || photo.src;
+      largeImage.alt = photo.alt || "Myriads by Steinse photograph";
 
-    caption.textContent =
-      (photo.alt || "Myriads by Steinse photograph") +
-      " · " + (current + 1) + " / " + photos.length;
+      const category = photo.dataset.category || "wildlife";
+      const species = photo.dataset.species || "";
+      const location = photo.dataset.location || "";
+      const description = photo.dataset.description || "";
+
+      categoryText.textContent = category === "nature" ? "Nature" : "Wildlife";
+      if (category === "nature") {
+        titleText.hidden = true;
+        titleText.textContent = "";
+      } else {
+        titleText.hidden = false;
+        titleText.textContent = species || "Wildlife photograph";
+      }
+
+      descriptionText.textContent = description || "Description coming soon. Check back for the story behind this photograph.";
+      locationText.replaceChildren();
+      if (location) {
+        const label = document.createElement("span");
+        label.textContent = "Location";
+        locationText.append(label, document.createTextNode(location));
+        locationText.hidden = false;
+      } else {
+        locationText.hidden = true;
+      }
+      counterText.textContent = (current + 1) + " / " + photos.length;
+      requestAnimationFrame(() => largeImage.classList.remove("changing"));
+    }, 120);
   }
 
   function openViewer(index) {
@@ -916,13 +996,15 @@ footer a:hover { color: var(--green); }
 
       photo.addEventListener("click", event => {
         event.preventDefault();
-        openViewer(index);
+        const liveIndex = photos.indexOf(photo);
+        if (liveIndex >= 0) openViewer(liveIndex);
       });
 
       photo.addEventListener("keydown", event => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          openViewer(index);
+          const liveIndex = photos.indexOf(photo);
+          if (liveIndex >= 0) openViewer(liveIndex);
         }
       });
     });
@@ -992,7 +1074,11 @@ footer a:hover { color: var(--green); }
         tile.classList.remove("is-loaded", "image-error");
         const nextImg = document.createElement("img");
         nextImg.className = "tile-next";
-        nextImg.alt = item.title || "Myriads by Steinse wildlife photograph";
+        nextImg.alt = item.species || item.title || "Myriads by Steinse photograph";
+        nextImg.dataset.category = item.category || "wildlife";
+        nextImg.dataset.species = item.species || "";
+        nextImg.dataset.location = item.location || "";
+        nextImg.dataset.description = item.description || "";
         nextImg.loading = "eager";
         nextImg.decoding = "async";
         nextImg.style.cursor = "zoom-in";
