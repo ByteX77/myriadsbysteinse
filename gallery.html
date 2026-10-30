@@ -795,11 +795,13 @@ footer {
       card.setAttribute("role", "button");
       card.setAttribute(
         "aria-label",
-        "Open " + (item.title || item.file || "photograph")
+        "Open " + (item.species || item.animal || (item.category === "nature" ? "nature photograph" : "wildlife photograph"))
       );
 
       const img = document.createElement("img");
-      img.alt = item.title || "Myriads by Steinse photograph";
+      img.alt = item.category === "wildlife"
+        ? (item.species || item.animal || "Wildlife photograph")
+        : "Nature landscape photograph";
       img.loading = index < 4 ? "eager" : "lazy";
       img.decoding = "async";
 
@@ -863,28 +865,32 @@ footer {
 
     changeTimer = setTimeout(() => {
       large.src = imagePath(item);
-      large.alt = item.title || "Myriads by Steinse photograph";
+      large.alt = item.category === "wildlife"
+        ? (item.species || item.animal || "Wildlife photograph")
+        : "Nature landscape photograph";
 
       infoCategory.textContent =
         item.category === "wildlife" ? "Wildlife" : "Nature";
 
-      infoTitle.textContent =
-        item.title ||
-        (item.category === "wildlife"
-          ? "Wildlife Photograph"
-          : "Nature Photograph");
-
-      infoDescription.textContent =
-        item.description || fallbackDescription;
+      if (item.category === "wildlife") {
+        infoTitle.hidden = false;
+        infoTitle.textContent = item.species || item.animal || "Wildlife photograph";
+        infoDescription.textContent = item.description || fallbackDescription;
+        meta.replaceChildren();
+        makeMeta("Location", item.location);
+      } else {
+        // Nature photographs need only a location and a short description.
+        infoTitle.hidden = true;
+        infoTitle.textContent = "";
+        infoDescription.textContent = item.description || fallbackDescription;
+        meta.replaceChildren();
+        makeMeta("Location", item.location);
+      }
 
       infoDescription.classList.toggle(
         "empty-description",
         !item.description
       );
-
-      meta.replaceChildren();
-      makeMeta("Species", item.species);
-      makeMeta("Location", item.location);
 
       counter.textContent =
         (current + 1) + " / " + visibleItems.length;
