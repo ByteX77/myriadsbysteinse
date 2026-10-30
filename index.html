@@ -819,6 +819,29 @@ footer a:hover { color: var(--green); }
     </div>
   </section>
 
+  <section class="stories videos-feature" id="videos">
+    <div class="stories-heading">
+      <div>
+        <div class="eyebrow">MYRIADS FILMS · THE WILD IN MOTION</div>
+        <h2>Stories in <span class="accent">motion.</span></h2>
+        <p class="section-description">
+          Some moments are best experienced as they unfold. Explore moving glimpses
+          of wildlife and the natural world, captured through the lens.
+        </p>
+      </div>
+      <a class="text-link" href="videos.html">EXPLORE ALL FILMS</a>
+    </div>
+    <div class="story-grid" id="homeVideoHighlights" aria-label="Featured films">
+      <a class="story-card video-highlight" href="videos.html">
+        <div class="story-image"><img src="videos/myriads-film-01-poster.jpg" alt="Featured wildlife film" loading="lazy"></div>
+        <div class="story-label">MYRIADS FILMS</div>
+        <h3>Discover stories in motion.</h3>
+        <p>Watch moments from the natural world, captured through the lens.</p>
+        <span class="text-link">WATCH THE FILMS</span>
+      </a>
+    </div>
+  </section>
+
   <!-- ABOUT ME -->
   <section class="about" id="about">
 
@@ -1166,6 +1189,30 @@ footer a:hover { color: var(--green); }
 
 
 
+
+<script>
+(() => {
+  const host = document.getElementById("homeVideoHighlights");
+  if (!host) return;
+  fetch("videos.json", { cache: "no-cache" })
+    .then(response => { if (!response.ok) throw new Error("videos.json unavailable"); return response.json(); })
+    .then(data => {
+      const films = (Array.isArray(data) ? data : (data.videos || [])).filter(f => f && (f.cover || f.poster || f.video)).slice(0, 3);
+      if (!films.length) return;
+      host.replaceChildren();
+      films.forEach((film, i) => {
+        const card = document.createElement("a"); card.className = "story-card video-highlight"; card.href = "videos.html";
+        const frame = document.createElement("div"); frame.className = "story-image";
+        const img = document.createElement("img"); img.src = film.cover || film.poster || ""; img.alt = film.title || "Myriads wildlife film"; img.loading = "lazy"; frame.appendChild(img);
+        const label = document.createElement("div"); label.className = "story-label"; label.textContent = (film.category || "MYRIADS FILMS").toUpperCase() + " · FILM " + String(i+1).padStart(2,"0");
+        const title = document.createElement("h3"); title.textContent = film.title || "A moment in motion.";
+        const desc = document.createElement("p"); desc.textContent = film.description || "A moving glimpse into the natural world.";
+        const link = document.createElement("span"); link.className = "text-link"; link.textContent = "WATCH THE FILM";
+        card.append(frame,label,title,desc,link); host.appendChild(card);
+      });
+    }).catch(error => console.warn("Video highlights unavailable:", error));
+})();
+</script>
 
 </body>
 </html>
