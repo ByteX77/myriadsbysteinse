@@ -454,24 +454,7 @@ section { width: 100%; }
   pointer-events: none;
   background: linear-gradient(to bottom, rgba(0,0,0,.04), transparent 45%, rgba(0,0,0,.22));
 }
-.video-thumbnail .video-play {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  padding-left: 3px;
-  border: 1px solid rgba(255,255,255,.78);
-  border-radius: 50%;
-  background: rgba(8,14,8,.52);
-  color: #fff;
-  font-size: 15px;
-  backdrop-filter: blur(8px);
-}
+
 .video-thumbnail.is-center {
   z-index: 5;
   opacity: 1;
@@ -1385,12 +1368,7 @@ footer a:hover { color: var(--green); }
           image.decoding = "async";
           video.replaceWith(image);
         }, { once: true });
-
-        const play = document.createElement("span");
-        play.className = "video-play";
-        play.setAttribute("aria-hidden", "true");
-        play.textContent = "▶";
-        card.append(video, play);
+        card.append(video);
         host.appendChild(card);
 
         const playAttempt = video.play();
