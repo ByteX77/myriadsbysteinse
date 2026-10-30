@@ -233,6 +233,42 @@ section { width: 100%; }
   transition: transform .32s cubic-bezier(.2,.7,.2,1), box-shadow .32s ease;
 }
 
+/* Per-photo loading state: forest shimmer with a small flying-bird outline. */
+.tile.is-loading {
+  /* Soft-focus forest atmosphere: layered green light and out-of-focus bokeh. */
+  background-color: #071009;
+  background-image:
+    radial-gradient(ellipse at 18% 24%, rgba(132, 170, 65, .34) 0%, rgba(70, 111, 42, .15) 18%, transparent 42%),
+    radial-gradient(ellipse at 78% 18%, rgba(91, 139, 65, .28) 0%, transparent 34%),
+    radial-gradient(ellipse at 62% 78%, rgba(131, 166, 76, .20) 0%, transparent 38%),
+    radial-gradient(circle at 32% 72%, rgba(190, 213, 111, .16) 0%, transparent 10%),
+    radial-gradient(circle at 86% 62%, rgba(178, 205, 112, .13) 0%, transparent 9%),
+    radial-gradient(ellipse at center, #172719 0%, #0b160d 58%, #050a06 100%);
+  background-size: 150% 150%;
+  animation: forestBreath 5s ease-in-out infinite alternate;
+}
+.tile.is-loading::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: 43px;
+  height: 27px;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2072%2044%22%3E%3Cpath%20d%3D%22M5%2021%20C14%2010%2024%2010%2033%2021%20C40%2011%2052%207%2067%2016%20C56%2018%2048%2023%2039%2031%20C36%2027%2033%2025%2030%2025%20C26%2025%2022%2028%2018%2033%20C14%2028%209%2024%205%2021Z%22%20fill%3D%22none%22%20stroke%3D%22%23c6df91%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M29%2025%20C34%2029%2039%2031%2045%2031%20M18%2033%20L12%2037%20M45%2031%20L53%2034%22%20fill%3D%22none%22%20stroke%3D%22%23c6df91%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M38%2021%20L45%2018%22%20fill%3D%22none%22%20stroke%3D%22%23c6df91%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+  transform: translate(-50%, -50%);
+  animation: birdHover 1.25s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(198,223,145,.28));
+  pointer-events: none;
+}
+.tile.is-loaded { animation: none; background: #050705; }
+.tile.is-loaded::before { content: none; }
+@keyframes birdHover {
+  0%, 100% { transform: translate(-50%, -50%) translateY(1px) rotate(1deg); }
+  50% { transform: translate(-50%, -50%) translateY(-3px) rotate(-2deg); }
+}
+@keyframes forestBreath { from { background-position: 0% 0%; filter: saturate(.92) brightness(.88); } to { background-position: 100% 100%; filter: saturate(1.12) brightness(1.08); } }
+
 /* Softly darken each photo's perimeter so it melts into the black-green ground. */
 .tile::after {
   content: "";
@@ -279,6 +315,8 @@ section { width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .tile, .tile img { transition: none; }
+  .tile.is-loading { animation: none; }
+  .tile.is-loading::before { animation: none; }
   .tile:hover, .tile:focus-visible { transform: none; }
 }
 
@@ -666,22 +704,22 @@ footer a:hover { color: var(--green); }
     </div>
 
     <div class="collage" id="featuredCollage" aria-label="Featured wildlife photographs">
-      <a class="tile tile-large" href="gallery.html" aria-label="View featured photograph">
+      <a class="tile tile-large is-loading" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" fetchpriority="high">
       </a>
-      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+      <a class="tile is-loading" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
       </a>
-      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+      <a class="tile is-loading" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
       </a>
       <a class="tile tile-wide" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
       </a>
-      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+      <a class="tile is-loading" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
       </a>
-      <a class="tile" href="gallery.html" aria-label="View featured photograph">
+      <a class="tile is-loading" href="gallery.html" aria-label="View featured photograph">
         <img src="" alt="" loading="lazy">
       </a>
     </div>
@@ -900,7 +938,7 @@ footer a:hover { color: var(--green); }
 
   function makeTile() {
     const tile = document.createElement("a");
-    tile.className = "tile";
+    tile.className = "tile is-loading";
     tile.href = "gallery.html";
     tile.setAttribute("aria-label", "View featured photograph");
     return tile;
@@ -949,6 +987,8 @@ footer a:hover { color: var(--green); }
       const swaps = selected.map((item, index) => {
         const tile = activeTiles[index];
         const oldImg = tile.querySelector("img.tile-current") || tile.querySelector("img:not(.tile-next)");
+        tile.classList.add("is-loading");
+        tile.classList.remove("is-loaded", "image-error");
         const nextImg = document.createElement("img");
         nextImg.className = "tile-next";
         nextImg.alt = item.title || "Myriads by Steinse wildlife photograph";
@@ -963,6 +1003,8 @@ footer a:hover { color: var(--green); }
             if (finished) return;
             finished = true;
             if (oldImg && oldImg !== nextImg && oldImg.isConnected) oldImg.remove();
+            tile.classList.remove("is-loading");
+            tile.classList.add("is-loaded");
             nextImg.classList.remove("tile-next", "is-visible");
             nextImg.classList.add("tile-current");
             wireCollagePhotos();
@@ -979,6 +1021,8 @@ footer a:hover { color: var(--green); }
           };
           nextImg.onerror = () => {
             nextImg.remove();
+            tile.classList.remove("is-loading");
+            tile.classList.add("image-error");
             resolve();
           };
           nextImg.src = filePath;
