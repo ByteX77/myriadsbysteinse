@@ -776,11 +776,11 @@ footer a:hover { color: var(--green); }
 .film-thumb-caption { position: absolute; z-index: 1; left: 14px; right: 12px; bottom: 13px; color: #fff; font: 500 16px/1.25 'Playfair Display',Georgia,serif; text-shadow: 0 2px 10px #000; }
 .film-thumb:not(:first-child) .film-thumb-caption { font-size: 13px; }
 .film-loading,.film-empty { grid-column: 1/-1; align-self: center; justify-self: center; padding: 25px; color: #aebc9e; text-align: center; font-size: 12px; letter-spacing: 1px; }
-.film-viewer { display:none; position:fixed; inset:0; z-index:1200; padding:58px 70px; align-items:center; justify-content:center; background:rgba(5,12,6,.97); }
-.film-viewer.open { display:flex; }
+.film-viewer { display:none; position:fixed !important; inset:0 !important; z-index:99999 !important; width:100vw; height:100dvh; box-sizing:border-box; padding:58px 70px; align-items:center; justify-content:center; background:rgba(5,12,6,.97); overflow:auto; }
+.film-viewer.open { display:flex !important; }
 .film-viewer-panel { position:relative; width:min(1400px,100%); height:min(790px,86vh); display:grid; grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr); overflow:hidden; background:rgba(16,27,16,.42); box-shadow:0 25px 90px rgba(0,0,0,.42); backdrop-filter:blur(28px) saturate(155%); }
 .film-viewer-media { min-width:0; min-height:0; display:flex; align-items:center; justify-content:center; padding:18px; background:#080d08; overflow:hidden; }
-.film-viewer-media video { display:block; max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
+.film-viewer-media video { display:block; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; background:#050705; }
 .film-viewer-info { min-width:0; overflow-y:auto; padding:clamp(24px,4vw,54px); display:flex; flex-direction:column; justify-content:center; background:linear-gradient(145deg,rgba(167,211,143,.16),rgba(63,105,65,.10) 48%,rgba(225,242,207,.07)); backdrop-filter:blur(30px) saturate(165%); }
 .film-viewer-category { color:var(--green); font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; margin-bottom:18px; }
 .film-viewer-title { font:500 clamp(27px,3vw,43px)/1.18 'Playfair Display',Georgia,serif; margin:0 0 20px; overflow-wrap:anywhere; }
@@ -1313,7 +1313,7 @@ footer a:hover { color: var(--green); }
   const category = document.getElementById('filmCategory');
   const location = document.getElementById('filmLocation');
   const counter = document.getElementById('filmCounter');
-  let films = [], current = 0, focusBefore = null;
+  let films = [], current = 0, focusBefore = null, scrollBefore = 0;
 
   const safePath = value => String(value || '').split('/').map(part => encodeURIComponent(part)).join('/');
   function renderCollage() {
@@ -1345,13 +1345,20 @@ footer a:hover { color: var(--green); }
     if (autoplay) player.play().catch(() => {});
   }
   function openFilm(index) {
-    focusBefore = document.activeElement; showFilm(index, true);
-    viewer.classList.add('open'); viewer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
-    document.getElementById('filmClose').focus();
+    focusBefore = document.activeElement; scrollBefore = window.scrollY;
+    showFilm(index, false);
+    viewer.classList.add('open'); viewer.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden'; document.documentElement.style.overflow='hidden';
+    document.getElementById('filmClose').focus({preventScroll:true});
+    window.scrollTo(0, scrollBefore);
+    player.play().catch(() => {});
   }
   function closeFilm() {
-    viewer.classList.remove('open'); viewer.setAttribute('aria-hidden','true'); player.pause(); player.removeAttribute('src'); player.load(); document.body.style.overflow='';
-    if (focusBefore && focusBefore.focus) focusBefore.focus();
+    viewer.classList.remove('open'); viewer.setAttribute('aria-hidden','true');
+    player.pause(); player.removeAttribute('src'); player.load();
+    document.body.style.overflow=''; document.documentElement.style.overflow='';
+    window.scrollTo(0, scrollBefore);
+    if (focusBefore && focusBefore.focus) focusBefore.focus({preventScroll:true});
   }
   document.getElementById('filmClose').addEventListener('click', closeFilm);
   document.getElementById('filmPrev').addEventListener('click', () => showFilm(current - 1, true));
