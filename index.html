@@ -248,7 +248,7 @@ section { width: 100%; }
 
 .tile:hover, .tile:focus-visible {
   z-index: 5;
-  transform: translateY(-6px) scale(1.018);
+  transform: translateY(-4px);
   box-shadow: 0 16px 34px rgba(0,0,0,.48), 0 0 0 1px rgba(180,210,123,.16);
 }
 
@@ -280,7 +280,8 @@ section { width: 100%; }
   .tile:hover, .tile:focus-visible { transform: none; }
 }
 
-.tile:hover img { transform: scale(1.055); }
+/* Featured photos do not zoom on hover; only the card lifts slightly. */
+.tile:hover img, .tile:focus-visible img { transform: none; }
 
 
 
